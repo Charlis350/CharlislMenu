@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Utilities/AssetUtilities.cs
+ * Signal Menu  Utilities/AssetUtilities.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)
@@ -77,6 +77,29 @@ namespace SignalMenu.Utilities
                 sound = Task.FromResult(actualclip).Result;
 
                 audioFilePool.Add(fileName, sound);
+            }
+            else
+                sound = value;
+
+            return sound;
+        }
+
+        /// <summary>
+        /// Loads a sound from an absolute file path (for iisStupidMenu/Sounds compatibility)
+        /// </summary>
+        public static AudioClip LoadSoundFromAbsolutePath(string absolutePath)
+        {
+            AudioClip sound;
+            if (!audioFilePool.TryGetValue(absolutePath, out var value))
+            {
+                UnityWebRequest actualrequest = UnityWebRequestMultimedia.GetAudioClip($"file://{absolutePath}", GetAudioType(GetFileExtension(absolutePath)));
+                UnityWebRequestAsyncOperation newvar = actualrequest.SendWebRequest();
+                while (!newvar.isDone) { }
+
+                AudioClip actualclip = DownloadHandlerAudioClip.GetContent(actualrequest);
+                sound = Task.FromResult(actualclip).Result;
+
+                audioFilePool.Add(absolutePath, sound);
             }
             else
                 sound = value;

@@ -560,7 +560,7 @@ namespace SignalMenu.SignalSafety.Patches
         internal static readonly HashSet<string> HiddenAssemblyNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "VRInputModule",
-            "Signal Safety Menu",
+            "Signal Menu",
             "SignalSafetyMenu",
             "SignalMenu",
             "SignalAutoUpdater",

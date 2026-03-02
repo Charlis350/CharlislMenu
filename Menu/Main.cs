@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Menu/Main.cs
+ * Signal Menu  Menu/Main.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)
@@ -70,12 +70,12 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 /*
- * Signal Safety Menu, written by @goldentrophy
+ * Signal Menu, written by @goldentrophy
  * Any comments are developer comments I wrote
  * Most comments are used to find certain parts of code faster with Ctrl + F
  * Feel free to read them if you want
  *
- * Signal Safety Menu falls under the GPL-3.0 license
+ * Signal Menu falls under the GPL-3.0 license
  * https://github.com/mojhehh/SignalMenu
  *
  * Forked from ii's Stupid Menu by iiDk
@@ -7108,3 +7108,4 @@ jgs \_   _/ |Oo\
         };
     }
 }
+

@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Patches/Menu/LurkerPatch.cs
+ * Signal Menu  Patches/Menu/LurkerPatch.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)

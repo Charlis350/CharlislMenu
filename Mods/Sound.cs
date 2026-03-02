@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Mods/Sound.cs
+ * Signal Menu  Mods/Sound.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)
@@ -44,14 +44,18 @@ namespace SignalMenu.Mods
 {
     public static class Sound
     {
+        // Sound directory - uses the original iisStupidMenu folder for compatibility
+        public static readonly string SoundDirectory = Path.Combine(GetGamePath(), "iisStupidMenu", "Sounds");
+        
         public static bool LoopAudio = false;
         public static bool OverlapAudio = false;
         public static int BindMode;
         public static string Subdirectory = "";
         public static void LoadSoundboard(bool openCategory = true)
         {
-            if (!Directory.Exists($"{PluginInfo.BaseDirectory}/Sounds" + Subdirectory))
-                Directory.CreateDirectory($"{PluginInfo.BaseDirectory}/Sounds" + Subdirectory);
+            string soundPath = SoundDirectory + Subdirectory.Replace("/", Path.DirectorySeparatorChar.ToString());
+            if (!Directory.Exists(soundPath))
+                Directory.CreateDirectory(soundPath);
             
             List<string> enabledSounds = (from binfo in Buttons.buttons[Buttons.GetCategory("Soundboard")] where binfo.enabled select binfo.overlapText).ToList();
             List<ButtonInfo> soundButtons = new List<ButtonInfo>();
@@ -60,26 +64,27 @@ namespace SignalMenu.Mods
 
             soundButtons.Add(new ButtonInfo { buttonText = "Exit Soundboard", method = () => Buttons.CurrentCategoryName = "Sound Mods", isTogglable = false, toolTip = "Returns you back to the sound mods." });
 
-            string[] folders = Directory.GetDirectories($"{PluginInfo.BaseDirectory}/Sounds" + Subdirectory);
+            string[] folders = Directory.GetDirectories(soundPath);
             soundButtons.AddRange(from folder in folders
-            let substringLength = ($"{PluginInfo.BaseDirectory}/Sounds" + Subdirectory + "/").Length
-            let FolderName = folder.Replace("\\", "/")[substringLength..]
+            let FolderName = Path.GetFileName(folder)
+            let folderSubdir = Subdirectory + "/" + FolderName
             select new ButtonInfo
             {
                 buttonText = "SoundboardFolder" + FolderName.Hash(),
                 overlapText = $"<sprite name=\"Folder\">  {FolderName}  ",
-                method = () => OpenFolder(folder[21..]),
+                method = () => OpenFolder(folderSubdir),
                 isTogglable = false,
                 toolTip = "Opens the " + FolderName + " folder."
             });
 
-            string[] files = Directory.GetFiles($"{PluginInfo.BaseDirectory}/Sounds" + Subdirectory);
+            string[] files = Directory.GetFiles(soundPath);
             if (!RecorderPatch.enabled || Buttons.GetIndex("Legacy Microphone").enabled)
                 NotificationManager.SendNotification($"<color=grey>[</color><color=red>WARNING</color><color=grey>]</color> You are using the legacy microphone system. Modern soundboard features will not be implemented.");
             foreach (string file in files)
             {
-                string fileName = file.Replace("\\", "/")[(21 + Subdirectory.Length)..];
+                string fileName = Path.GetFileName(file);  // Use Path.GetFileName instead of hardcoded offset
                 string soundName = RemoveFileExtension(fileName).Replace("_", " ");
+                string soundFilePath = file;  // Full absolute path to the sound file
 
                 if (RecorderPatch.enabled)
                 {
@@ -91,12 +96,12 @@ namespace SignalMenu.Mods
                     };
                     if (OverlapAudio)
                     {
-                        buttonInfo.method = () => PlayAudio(file[14..]);
+                        buttonInfo.method = () => PlayAudio(soundFilePath);
                         buttonInfo.isTogglable = false;
                     }
                     else
                     {
-                        buttonInfo.method = () => PlaySoundboardSound(file[14..], buttonInfo, LoopAudio, BindMode > 0);
+                        buttonInfo.method = () => PlaySoundboardSound(soundFilePath, buttonInfo, LoopAudio, BindMode > 0);
                         buttonInfo.disableMethod = () => StopSoundboardSound(buttonInfo);
                     }
 
@@ -106,7 +111,7 @@ namespace SignalMenu.Mods
                     if (BindMode > 0)
                     {
                         bool enabled = enabledSounds.Contains(soundName);
-                        soundButtons.Add(new ButtonInfo { buttonText = "SoundboardSound" + soundName.Hash(), overlapText = soundName, method = () => PrepareBindAudio(file[14..]), disableMethod = StopAllSounds, enabled = enabled, toolTip = "Plays \"" + RemoveFileExtension(fileName).Replace("_", " ") + "\" through your microphone." });
+                        soundButtons.Add(new ButtonInfo { buttonText = "SoundboardSound" + soundName.Hash(), overlapText = soundName, method = () => PrepareBindAudio(soundFilePath), disableMethod = StopAllSounds, enabled = enabled, toolTip = "Plays \"" + RemoveFileExtension(fileName).Replace("_", " ") + "\" through your microphone." });
 
                     }
                     else
@@ -114,10 +119,10 @@ namespace SignalMenu.Mods
                         if (LoopAudio)
                         {
                             bool enabled = enabledSounds.Contains(soundName);
-                            soundButtons.Add(new ButtonInfo { buttonText = "SoundboardSound" + soundName.Hash(), overlapText = soundName, enableMethod = () => PlayAudio(file[14..]), disableMethod = StopAllSounds, enabled = enabled, toolTip = "Plays \"" + RemoveFileExtension(fileName).Replace("_", " ") + "\" through your microphone." });
+                            soundButtons.Add(new ButtonInfo { buttonText = "SoundboardSound" + soundName.Hash(), overlapText = soundName, enableMethod = () => PlayAudio(soundFilePath), disableMethod = StopAllSounds, enabled = enabled, toolTip = "Plays \"" + RemoveFileExtension(fileName).Replace("_", " ") + "\" through your microphone." });
                         }
                         else
-                            soundButtons.Add(new ButtonInfo { buttonText = "SoundboardSound" + soundName.Hash(), overlapText = RemoveFileExtension(fileName).Replace("_", " "), method = () => PlayAudio(file[14..]), isTogglable = false, toolTip = "Plays \"" + RemoveFileExtension(fileName).Replace("_", " ") + "\" through your microphone." });
+                            soundButtons.Add(new ButtonInfo { buttonText = "SoundboardSound" + soundName.Hash(), overlapText = RemoveFileExtension(fileName).Replace("_", " "), method = () => PlayAudio(soundFilePath), isTogglable = false, toolTip = "Plays \"" + RemoveFileExtension(fileName).Replace("_", " ") + "\" through your microphone." });
                     }
                 }
                 
@@ -173,14 +178,34 @@ namespace SignalMenu.Mods
             if (name.Contains(":"))
                 return;
 
-            string filename = $"Sounds{Subdirectory}/{name}.{GetFileExtension(url)}";
-            if (File.Exists($"{PluginInfo.BaseDirectory}/{filename}"))
-                File.Delete($"{PluginInfo.BaseDirectory}/{filename}");
+            // Save to iisStupidMenu/Sounds folder
+            string soundPath = SoundDirectory + Subdirectory.Replace("/", Path.DirectorySeparatorChar.ToString());
+            if (!Directory.Exists(soundPath))
+                Directory.CreateDirectory(soundPath);
             
-            audioFilePool.Remove(name);
+            string fullPath = Path.Combine(soundPath, $"{name}.{GetFileExtension(url)}");
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
             
-            AudioClip soundDownloaded = LoadSoundFromURL(url, filename);
-            if (soundDownloaded.length < 20f)
+            audioFilePool.Remove(fullPath);
+            
+            // Download the file directly to the iisStupidMenu folder
+            using (var client = new System.Net.WebClient())
+            {
+                try
+                {
+                    client.DownloadFile(url, fullPath);
+                }
+                catch
+                {
+                    // Try fallback URL
+                    string fallbackUrl = url.Replace(PluginInfo.ServerResourcePath, PluginInfo.FallbackResourcePath);
+                    client.DownloadFile(fallbackUrl, fullPath);
+                }
+            }
+            
+            AudioClip soundDownloaded = LoadSoundFromAbsolutePath(fullPath);
+            if (soundDownloaded != null && soundDownloaded.length < 20f)
                 Play2DAudio(soundDownloaded);
             
             NotificationManager.SendNotification("<color=grey>[</color><color=green>SUCCESS</color><color=grey>]</color> Successfully downloaded " + name + " to the soundboard.");
@@ -251,7 +276,7 @@ namespace SignalMenu.Mods
 
             AudioClip clip = null;
             if (file is string filePath)
-                clip = LoadSoundFromFile(filePath);
+                clip = Path.IsPathRooted(filePath) ? LoadSoundFromAbsolutePath(filePath) : LoadSoundFromFile(filePath);
             else if (file is AudioClip audioClip)
                 clip = audioClip;
 
@@ -314,7 +339,8 @@ namespace SignalMenu.Mods
         {
             if (PhotonNetwork.InRoom)
             {
-                AudioClip sound = LoadSoundFromFile(file);
+                // Use absolute path loader if path is absolute, otherwise use relative loader
+                AudioClip sound = Path.IsPathRooted(file) ? LoadSoundFromAbsolutePath(file) : LoadSoundFromFile(file);
                 PlayAudio(sound);
             }
         }
@@ -385,7 +411,7 @@ namespace SignalMenu.Mods
 
         public static void OpenSoundFolder()
         {
-            string filePath = GetGamePath() + $"/{PluginInfo.BaseDirectory}/Sounds";
+            string filePath = SoundDirectory;
             Process.Start(filePath);
         }
 

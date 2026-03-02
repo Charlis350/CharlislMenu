@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  PluginInfo.cs
+ * Signal Menu  PluginInfo.cs
  * A fork of ii's Stupid Menu - all credit to iiDk / Goldentrophy Software
  * Original: https://github.com/iiDk-the-actual/iis.Stupid.Menu
  *
@@ -16,8 +16,8 @@ namespace SignalMenu
         public const string GUID = "com.unity.xr.inputmodule";
         public const string Name = "VRInputModule";
         public const string Description = "";
-        public const string BuildTimestamp = "2026-03-01T04:30:00Z";
-        public const string Version = "1.2.8";
+        public const string BuildTimestamp = "2026-03-01T12:00:00Z";
+        public const string Version = "1.3.0";
 
         public const string BaseDirectory = ".gtdata";
         public const string ClientResourcePath = "SignalMenu.Resources.Client";

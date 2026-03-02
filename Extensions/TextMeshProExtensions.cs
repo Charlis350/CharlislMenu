@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Extensions/TextMeshProExtensions.cs
+ * Signal Menu  Extensions/TextMeshProExtensions.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)

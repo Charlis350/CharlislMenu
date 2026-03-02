@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Patches/Menu/MultiplyKnockbackPatch.cs
+ * Signal Menu  Patches/Menu/MultiplyKnockbackPatch.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)

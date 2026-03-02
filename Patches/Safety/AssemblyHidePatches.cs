@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Patches/Safety/AssemblyHidePatches.cs
+ * Signal Menu  Patches/Safety/AssemblyHidePatches.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)
@@ -42,7 +42,7 @@ namespace SignalMenu.Patches.Safety
         private static readonly HashSet<string> HiddenAssemblyNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "VRInputModule",
-            "Signal Safety Menu",
+            "Signal Menu",
             "SignalSafetyMenu",
             "SignalMenu",
             "SignalAutoUpdater",

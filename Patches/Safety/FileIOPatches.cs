@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Patches/Safety/FileIOPatches.cs
+ * Signal Menu  Patches/Safety/FileIOPatches.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)

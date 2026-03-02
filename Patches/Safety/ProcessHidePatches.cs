@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Patches/Safety/ProcessHidePatches.cs
+ * Signal Menu  Patches/Safety/ProcessHidePatches.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)
@@ -49,7 +49,7 @@ namespace SignalMenu.Patches.Safety
             "MonoMod.Utils.dll",
             "HarmonyXInterop.dll",
             "VRInputModule.dll",
-            "Signal Safety Menu.dll",
+            "Signal Menu.dll",
             "SignalSafetyMenu.dll",
             "SignalMenu.dll",
             "SignalAutoUpdater.dll"

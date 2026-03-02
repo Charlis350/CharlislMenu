@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Mods/Advantages.cs
+ * Signal Menu  Mods/Advantages.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)

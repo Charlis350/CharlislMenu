@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Managers/VoiceManager.cs
+ * Signal Menu  Managers/VoiceManager.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)

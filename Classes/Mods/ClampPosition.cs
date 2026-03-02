@@ -1,5 +1,5 @@
 /*
- * Signal Safety Menu  Classes/Mods/ClampPosition.cs
+ * Signal Menu  Classes/Mods/ClampPosition.cs
  * A mod menu for Gorilla Tag with over 1000+ mods
  *
  * Copyright (C) 2026  mojhehh (forked from Goldentrophy Software)
