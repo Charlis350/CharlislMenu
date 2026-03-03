@@ -64,6 +64,7 @@ namespace SignalMenu.Menu
                 new ButtonInfo { buttonText = "Important Mods", method =() => CurrentCategoryName = "Important Mods", isTogglable = false, toolTip = "Opens the important mods."},
                 new ButtonInfo { buttonText = "Safety Mods", method =() => CurrentCategoryName = "Safety Mods", isTogglable = false, toolTip = "Opens the safety mods."},
                 new ButtonInfo { buttonText = "Movement Mods", method =() => CurrentCategoryName = "Movement Mods", isTogglable = false, toolTip = "Opens the movement mods."},
+                new ButtonInfo { buttonText = "Rig Mods", method =() => CurrentCategoryName = "Rig Mods", isTogglable = false, toolTip = "Opens the rig mods."},
                 new ButtonInfo { buttonText = "Advantage Mods", method =() => CurrentCategoryName = "Advantage Mods", isTogglable = false, toolTip = "Opens the advantage mods."},
                 new ButtonInfo { buttonText = "Visual Mods", method =() => CurrentCategoryName = "Visual Mods", isTogglable = false, toolTip = "Opens the visual mods."},
                 new ButtonInfo { buttonText = "Fun Mods", method =() => CurrentCategoryName = "Fun Mods", isTogglable = false, toolTip = "Opens the fun mods."},
@@ -718,91 +719,7 @@ namespace SignalMenu.Menu
                 new ButtonInfo { buttonText = "Air Swim", aliases = new[] { "Fish" }, method = Movement.AirSwim, disableMethod = Movement.DisableAirSwim, toolTip = "Puts you in a block of water, letting you swim in the air." },
                 new ButtonInfo { buttonText = "Fast Swim", method =() => Movement.SetSwimSpeed(10f), disableMethod =() => Movement.SetSwimSpeed(), toolTip = "Lets you swim faster in water." },
                 new ButtonInfo { buttonText = "Water Run Helper", overlapText = "Water Run", enableMethod =() => Movement.WaterRunHelper(true), disableMethod =() => Movement.WaterRunHelper(false), toolTip = "Adds back water running to the game." },
-                new ButtonInfo { buttonText = "Disable Air", overlapText = "Disable Wind Barriers", aliases = new[] { "Disable Air" }, enableMethod =() => { ForcePatches.enabled = true; GetObject("Environment Objects/LocalObjects_Prefab/Forest/Environment/Forest_ForceVolumes/").SetActive(false); GetObject("Environment Objects/LocalObjects_Prefab/ForestToHoverboard/TurnOnInForestAndHoverboard/ForestDome_CollisionOnly").SetActive(false); }, disableMethod =() => { ForcePatches.enabled = false; GetObject("Environment Objects/LocalObjects_Prefab/Forest/Environment/Forest_ForceVolumes/").SetActive(true); GetObject("Environment Objects/LocalObjects_Prefab/ForestToHoverboard/TurnOnInForestAndHoverboard/ForestDome_CollisionOnly").SetActive(true); }, toolTip = "Disables the wind barriers in every map." },
-
-                new ButtonInfo { buttonText = "Ghost <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.Ghost, disableMethod = Movement.EnableRig, toolTip = "Keeps your rig still when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Invisible <color=grey>[</color><color=green>B</color><color=grey>]</color>", method = Movement.Invisible, disableMethod = Movement.EnableRig, toolTip = "Makes you go invisible when holding <color=green>B</color>."},
-
-                new ButtonInfo { buttonText = "Rig Gun", method = Movement.RigGun, toolTip = "Moves your rig to wherever your hand desires."},
-                new ButtonInfo { buttonText = "Grab Rig <color=grey>[</color><color=green>G</color><color=grey>]</color>", method = Movement.GrabRig, toolTip = "Lets you grab your rig when holding <color=green>grip</color>."},
-                
-                new ButtonInfo { buttonText = "Spin Head X", method =() => Fun.SpinHead("x"), disableMethod = Fun.FixHead, toolTip = "Spins your head on the X axis."},
-                new ButtonInfo { buttonText = "Spin Head Y", method =() => Fun.SpinHead("y"), disableMethod = Fun.FixHead, toolTip = "Spins your head on the Y axis."},
-                new ButtonInfo { buttonText = "Spin Head Z", method =() => Fun.SpinHead("z"), disableMethod = Fun.FixHead, toolTip = "Spins your head on the Z axis."},
-
-                new ButtonInfo { buttonText = "Spaz Rig <color=grey>[</color><color=green>A</color><color=grey>]</color>", enableMethod = Movement.EnableSpazRig, method = Movement.SpazRig, disableMethod = Movement.DisableSpazRig, toolTip = "Makes every part of your rig spaz out a little bit when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Spaz Rig Hands <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.SpazHands, toolTip = "Makes your rig's hands spaz out everywhere when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Spaz Hands <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.SpazRealHands, toolTip = "Makes your hands spaz out everywhere when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Random Spaz Head Position", enableMethod = Movement.EnableSpazHead, method = Movement.RandomSpazHeadPosition, disableMethod = Movement.FixHeadPosition, toolTip = "Makes your head position spaz out for 0 to 1 seconds every 1 to 4 seconds."},
-                new ButtonInfo { buttonText = "Random Spaz Head", overlapText = "Random Spaz Head Rotation", method = Movement.RandomSpazHead, disableMethod = Fun.FixHead, toolTip = "Makes your head rotation spaz out for 0 to 1 seconds every 1 to 4 seconds."},
-                new ButtonInfo { buttonText = "Spaz Head Position", enableMethod = Movement.EnableSpazHead, method = Movement.SpazHeadPosition, disableMethod = Movement.FixHeadPosition, toolTip = "Makes your head position spaz out."},
-                new ButtonInfo { buttonText = "Spaz Head", overlapText = "Spaz Head Rotation", method = Movement.SpazHead, disableMethod = Fun.FixHead, toolTip = "Makes your head rotation spaz out."},
-                new ButtonInfo { buttonText = "Spaz Head X", method =() => Fun.SpazHead("x"), disableMethod = Fun.FixHead, toolTip = "Spaz your head on the X axis."},
-                new ButtonInfo { buttonText = "Spaz Head Y", method =() => Fun.SpazHead("y"), disableMethod = Fun.FixHead, toolTip = "Spaz your head on the Y axis."},
-                new ButtonInfo { buttonText = "Spaz Head Z", method =() => Fun.SpazHead("z"), disableMethod = Fun.FixHead, toolTip = "Spaz your head on the Z axis."},
-
-                new ButtonInfo { buttonText = "Laggy Rig", method = Movement.LaggyRig, disableMethod = Movement.EnableRig, toolTip = "Makes your rig laggy."},
-                new ButtonInfo { buttonText = "Smooth Rig", method =() => PhotonNetwork.SerializationRate = 30, disableMethod =() => PhotonNetwork.SerializationRate = 10, toolTip = "Makes your rig really smooth."},
-                new ButtonInfo { buttonText = "Update Rig <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.UpdateRig, disableMethod = Movement.EnableRig, toolTip = "Freezes your rig in place. Whenever you click <color=green>A</color>, your rig will update."},
-
-                new ButtonInfo { buttonText = "Freeze Rig Limbs", method = Movement.FreezeRigLimbs, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your hands and head freeze on your rig, but not your body."},
-                new ButtonInfo { buttonText = "Freeze Rig Body", method = Movement.FreezeRigBody, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your body freeze on your rig, but not your hands and head."},
-                new ButtonInfo { buttonText = "Freeze Rig", method = Movement.FreezeRig, disableMethod =() => { VRRig.LocalRig.enabled = true; Movement.startPosition = null; }, toolTip = "Makes your body freeze on your rig, but not your hands and head."},
-                
-                new ButtonInfo { buttonText = "Paralyze Rig", method = Movement.ParalyzeRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Removes your arms from your rig."},
-                new ButtonInfo { buttonText = "Chicken Rig", method = Movement.ChickenRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your rig look like a chicken."},
-                new ButtonInfo { buttonText = "Amputate Rig", method = Movement.AmputateRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Removes all of your limbs from your rig."},
-                new ButtonInfo { buttonText = "Decapitate Rig", enableMethod =() => TorsoPatch.VRRigLateUpdate += Movement.DecapitateRigUpdate, disableMethod =() => TorsoPatch.VRRigLateUpdate -= Movement.DecapitateRigUpdate, toolTip = "Removes the head from your rig."},
-
-                new ButtonInfo { buttonText = "Spin Rig Body", method =() => Movement.SetBodyPatch(true), disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Makes your body spin around, but not your head."},
-                new ButtonInfo { buttonText = "Spaz Rig Body", method =() => Movement.SetBodyPatch(true, 1), disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Gives your body a seizure, randomizing its rotation."},
-                new ButtonInfo { buttonText = "Reverse Rig Body", method =() => Movement.SetBodyPatch(true, 2), disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Flips your body around backwards, but not your head."},
-                new ButtonInfo { buttonText = "Rec Room Body", method = Movement.RecRoomBody, disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Makes your rig like how the Rec Room bodies are."},
-                new ButtonInfo { buttonText = "Freeze Body Rotation <color=grey>[</color><color=green>G</color><color=grey>]</color>", method = Movement.FreezeBodyRotation, disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Freezes your body rotation in place, but not your head, when holding <color=green>grip</color>."},
-
-                new ButtonInfo { buttonText = "Auto Dance <color=grey>[</color><color=green>A</color><color=grey>]</color>", aliases = new[] { "Emote" }, method = Movement.AutoDance, toolTip = "Makes you dance when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Auto Griddy <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.AutoGriddy, toolTip = "Makes you griddy when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Auto T Pose <color=grey>[</color><color=green>A</color><color=grey>]</color>", overlapText = "T Pose <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.AutoTPose, toolTip = "Makes you t pose when holding <color=green>A</color>. Good for fly trolling."},
-                new ButtonInfo { buttonText = "Helicopter <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.Helicopter, toolTip = "Turns you into a helicopter when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Beyblade <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.Beyblade, toolTip = "Turns you into a beyblade when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Still Beyblade <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.StillBeyblade, disableMethod =() => Movement.stillBeybladeStartPos = Vector3.zero, toolTip = "Turns you into a beyblade when holding <color=green>A</color>. Doesn't move you."},
-                new ButtonInfo { buttonText = "Spin Bot", enableMethod =() => TorsoPatch.VRRigLateUpdate += Movement.TorsoPatch_VRRigLateUpdate, method =() => ghostException = true, disableMethod =() => { TorsoPatch.VRRigLateUpdate -= Movement.TorsoPatch_VRRigLateUpdate; ghostException = false; }, toolTip = "Makes your body spin around, but not your head."},
-                new ButtonInfo { buttonText = "Fan <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.Fan, toolTip = "Turns you into a fan when holding <color=green>A</color>."},
-                new ButtonInfo { buttonText = "Ghost Animations", method = Movement.GhostAnimations, disableMethod = Movement.DisableGhostAnimations, toolTip = "Makes you look like a ghost, making your movement snappy and slow."},
-                new ButtonInfo { buttonText = "Minecraft Animations", method = Movement.MinecraftAnimations, disableMethod = Movement.EnableRig, toolTip = "Puts your hands down, and makes you walk when holding <color=green>A</color>. You can also point with <color=green>B</color>."},
-
-                new ButtonInfo { buttonText = "Stare at Nearby", overlapText = "Stare At Player Nearby", enableMethod =() => TorsoPatch.VRRigLateUpdate += Movement.StareAtNearby, disableMethod =() => TorsoPatch.VRRigLateUpdate -= Movement.StareAtNearby, toolTip = "Makes you stare at the nearest player."},
-                new ButtonInfo { buttonText = "Stare at Player Gun", method = Movement.StareAtGun, disableMethod =() => TorsoPatch.VRRigLateUpdate -= Movement.StareAtTarget, toolTip = "Makes you stare at whoever your hand desires."},
-                new ButtonInfo { buttonText = "Stare at All Players", aliases = new[] { "Owl" }, enableMethod = Movement.StareAtAll, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you stare at everyone in the room."},
-                new ButtonInfo { buttonText = "Eye Contact", enableMethod =() => TorsoPatch.VRRigLateUpdate += Movement.EyeContact, disableMethod =() => TorsoPatch.VRRigLateUpdate -= Movement.EyeContact, toolTip = "Makes you stare at anyone who is looking at you."},
-                new ButtonInfo { buttonText = "Floating Rig", enableMethod = Movement.EnableFloatingRig, method = Movement.FloatingRig, disableMethod = Movement.DisableFloatingRig, toolTip = "Makes your rig float."},
-
-                new ButtonInfo { buttonText = "Bees", method = Movement.Bees, disableMethod = Movement.EnableRig, toolTip = "Makes your rig teleport to random players, imitating the bees ghost."},
-                new ButtonInfo { buttonText = "Bees <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() =>{ if (rightGrab) {Movement.Bees(); } }, disableMethod = Movement.EnableRig, toolTip = "Makes your rig teleport to random players when holding <color=green>grip</color>, imitating the bees ghost."},
-
-                new ButtonInfo { buttonText = "Piggyback Gun", aliases = new[] { "Ride Gun" }, method = Movement.PiggybackGun, toolTip = "Teleports you on top of whoever your hand desires repeatedly."},
-                new ButtonInfo { buttonText = "Piggyback All", aliases = new[] { "Ride All" }, enableMethod = Movement.PiggybackAll, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you appear on top of everyone in the room"},
-
-                new ButtonInfo { buttonText = "Copy Movement Gun", method = Movement.CopyMovementGun, toolTip = "Makes your rig copy the movement of whoever your hand desires."},
-                new ButtonInfo { buttonText = "Copy Movement All", enableMethod = Movement.CopyMovementAll, disableMethod =() => { SerializePatch.OverrideSerialization = null; Movement.followPositions.Clear(); }, toolTip = "Makes your rig copy the movement of every player in the room."},
-
-                new ButtonInfo { buttonText = "Follow Player Gun", method = Movement.FollowPlayerGun, toolTip = "Flies your rig towards whoever your hand desires."},
-                new ButtonInfo { buttonText = "Follow All Players", enableMethod = Movement.FollowAllPlayers, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Flies your rig towards everyone in the room."},
-
-                new ButtonInfo { buttonText = "Orbit Player Gun", method = Movement.OrbitPlayerGun, toolTip = "Orbits your rig around whoever your hand desires."},
-                new ButtonInfo { buttonText = "Orbit All Players", enableMethod = Movement.OrbitAllPlayers, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Orbits your rig around everyone in the room."},
-
-                new ButtonInfo { buttonText = "Jumpscare Gun", method = Movement.JumpscareGun, toolTip = "Makes you jumpscare whoever your hand desires."},
-                new ButtonInfo { buttonText = "Jumpscare All", enableMethod = Movement.JumpscareAll, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you jumpscare everyone in the room."},
-
-                new ButtonInfo { buttonText = "Annoy Player Gun", method = Movement.AnnoyPlayerGun, toolTip = "Spazzes your body around whoever your hand desires, with sounds."},
-                new ButtonInfo { buttonText = "Annoy All Players", enableMethod = Movement.AnnoyAllPlayers, method =() => Sound.SoundSpam(337, true), disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Spazzes your body around everyone in the room, with sounds."},
-
-                new ButtonInfo { buttonText = "Intercourse Gun", aliases = new[] { "Sex Gun" }, method = Movement.IntercourseGun, toolTip = "Makes you thrust whoever your hand desires, with sounds."},
-                new ButtonInfo { buttonText = "Intercourse All", aliases = new[] { "Sex All" }, enableMethod = Movement.IntercourseAll, method = Movement.IntercourseNoises, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you thrust everyone in the room, with sounds."},
-
-                new ButtonInfo { buttonText = "Head Gun", aliases = new[] { "Blowjob Gun" }, method = Movement.HeadGun, toolTip = "Makes you thrust whoever your hand desires, but lower, with sounds."},
-                new ButtonInfo { buttonText = "Head All", aliases = new[] { "Blowjob All" }, enableMethod = Movement.HeadAll, method = Movement.IntercourseNoises, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you thrust everyone in the room, but lower, with sounds."}
+                new ButtonInfo { buttonText = "Disable Air", overlapText = "Disable Wind Barriers", aliases = new[] { "Disable Air" }, enableMethod =() => { ForcePatches.enabled = true; GetObject("Environment Objects/LocalObjects_Prefab/Forest/Environment/Forest_ForceVolumes/").SetActive(false); GetObject("Environment Objects/LocalObjects_Prefab/ForestToHoverboard/TurnOnInForestAndHoverboard/ForestDome_CollisionOnly").SetActive(false); }, disableMethod =() => { ForcePatches.enabled = false; GetObject("Environment Objects/LocalObjects_Prefab/Forest/Environment/Forest_ForceVolumes/").SetActive(true); GetObject("Environment Objects/LocalObjects_Prefab/ForestToHoverboard/TurnOnInForestAndHoverboard/ForestDome_CollisionOnly").SetActive(true); }, toolTip = "Disables the wind barriers in every map." }
             },
 
             new[] { // Advantage Mods [10]
@@ -2052,6 +1969,7 @@ namespace SignalMenu.Menu
                 new ButtonInfo { buttonText = "Kick Master Client", enableMethod = () => Overpowered.kickCoroutine = CoroutineManager.instance.StartCoroutine(Overpowered.KickMasterClient()), method =() => { if (Overpowered.kickCoroutine == null) Toggle("Kick Master Client"); }, disableMethod =() => { SerializePatch.OverrideSerialization = null; Overpowered.kickCoroutine = null; }, toolTip = "Kicks the master client from the room." },
                 new ButtonInfo { buttonText = "Kick Gun", method = Overpowered.KickGun, disableMethod =() => { SerializePatch.OverrideSerialization = null; Overpowered.kickCoroutine = null; }, toolTip = "Kick whoever your hand desires, if they are master client. Credits to Rexon for making such a stupid mod." },
                 new ButtonInfo { buttonText = "Kick All", enableMethod = () => Overpowered.kickCoroutine = CoroutineManager.instance.StartCoroutine(Overpowered.KickAll()), method =() => { if (Overpowered.kickCoroutine == null) Toggle("Kick All"); }, disableMethod =() => { SerializePatch.OverrideSerialization = null; Overpowered.kickCoroutine = null; }, toolTip = "Kicks everyone above you from the room." },
+                new ButtonInfo { buttonText = "Smart Kick All", enableMethod = () => Overpowered.kickCoroutine = CoroutineManager.instance.StartCoroutine(Overpowered.SmartKickAll()), method =() => { if (Overpowered.kickCoroutine == null) Toggle("Smart Kick All"); }, disableMethod =() => { SerializePatch.OverrideSerialization = null; Overpowered.kickCoroutine = null; }, toolTip = "Becomes master then kicks everyone. More reliable than Cache Kick." },
 
                 new ButtonInfo { buttonText = "Cache Kick Gun", method = Overpowered.CacheKickGun, disableMethod =() => Overpowered.OptimizeEvents = false, toolTip = "Kicks everyone in the room by filling up the room cache." },
                 new ButtonInfo { buttonText = "Cache Kick All", enableMethod = Overpowered.EnableCacheKickAll, method = Overpowered.CacheKickAll, disableMethod =() => Overpowered.OptimizeEvents = false, toolTip = "Kicks everyone in the room by filling up the room cache." },
@@ -2349,7 +2267,7 @@ namespace SignalMenu.Menu
                 new ButtonInfo { buttonText = "Search", method = Settings.Search, isTogglable = false, toolTip = "Lets you search for specific mods."},
                 new ButtonInfo { buttonText = "Global Return", method = Settings.GlobalReturn, isTogglable = false, toolTip = "Returns you to the previous category."},
                 new ButtonInfo { buttonText = "Info Screen", method = Settings.Debug, enableMethod = Settings.ShowDebug, disableMethod = Settings.HideDebug, toolTip = "Shows game and modding related information."},
-                new ButtonInfo { buttonText = "Donate Button", method =() => { NotificationManager.ClearAllNotifications(); acceptedDonations = true; File.WriteAllText($"{PluginInfo.BaseDirectory}/hide_donate.dat", "true"); Prompt("I've spent nearly two years building this menu. Your Patreon support helps me keep it growing, want to check it out?", () => Process.Start("https://patreon.com/iiDk")); }, isTogglable = false, toolTip = "An advertisement for my Patreon." },
+                new ButtonInfo { buttonText = "Donate Button", method =() => { NotificationManager.ClearAllNotifications(); acceptedDonations = true; File.WriteAllText($"{PluginInfo.BaseDirectory}/hide_donate.dat", "true"); Prompt("Thanks for using Signal Menu! Join our Discord for updates.", () => Important.JoinDiscord()); }, isTogglable = false, toolTip = "Join the Discord server." },
                 new ButtonInfo { buttonText = "Update Button", method =() => UpdatePrompt(), isTogglable = false, toolTip = "Prompts you to update the menu." },
 
                 new ButtonInfo { buttonText = "Accept Prompt", method =() => { NotificationManager.ClearAllNotifications(); if (inTextInput) Settings.DestroyKeyboard(); CurrentPrompt.AcceptAction?.Invoke(); Settings.StopCurrentPrompt(); }, isTogglable = false},
@@ -2696,6 +2614,95 @@ namespace SignalMenu.Menu
             {
                 new ButtonInfo { buttonText = "Exit Patreon Settings", method =() => CurrentCategoryName = "Main", isTogglable = false, toolTip = "Returns you back to the main page."},
                 new ButtonInfo { buttonText = "Disable Patreon Indicators", enableMethod =() => PatreonManager.IndicatorsEnabled = false, disableMethod =() => PatreonManager.IndicatorsEnabled = true, toolTip = "Disables the memberships that appear above people's head with the menu."}
+            },
+
+            new[] // Rig Mods [49]
+            {
+                new ButtonInfo { buttonText = "Exit Rig Mods", method =() => CurrentCategoryName = "Main", isTogglable = false, toolTip = "Returns you back to the main page."},
+
+                new ButtonInfo { buttonText = "Ghost <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.Ghost, disableMethod = Movement.EnableRig, toolTip = "Keeps your rig still when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Invisible <color=grey>[</color><color=green>B</color><color=grey>]</color>", method = Movement.Invisible, disableMethod = Movement.EnableRig, toolTip = "Makes you go invisible when holding <color=green>B</color>."},
+
+                new ButtonInfo { buttonText = "Rig Gun", method = Movement.RigGun, toolTip = "Moves your rig to wherever your hand desires."},
+                new ButtonInfo { buttonText = "Grab Rig <color=grey>[</color><color=green>G</color><color=grey>]</color>", method = Movement.GrabRig, toolTip = "Lets you grab your rig when holding <color=green>grip</color>."},
+                
+                new ButtonInfo { buttonText = "Spin Head X", method =() => Fun.SpinHead("x"), disableMethod = Fun.FixHead, toolTip = "Spins your head on the X axis."},
+                new ButtonInfo { buttonText = "Spin Head Y", method =() => Fun.SpinHead("y"), disableMethod = Fun.FixHead, toolTip = "Spins your head on the Y axis."},
+                new ButtonInfo { buttonText = "Spin Head Z", method =() => Fun.SpinHead("z"), disableMethod = Fun.FixHead, toolTip = "Spins your head on the Z axis."},
+
+                new ButtonInfo { buttonText = "Spaz Rig <color=grey>[</color><color=green>A</color><color=grey>]</color>", enableMethod = Movement.EnableSpazRig, method = Movement.SpazRig, disableMethod = Movement.DisableSpazRig, toolTip = "Makes every part of your rig spaz out a little bit when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Spaz Rig Hands <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.SpazHands, toolTip = "Makes your rig's hands spaz out everywhere when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Spaz Hands <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.SpazRealHands, toolTip = "Makes your hands spaz out everywhere when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Random Spaz Head Position", enableMethod = Movement.EnableSpazHead, method = Movement.RandomSpazHeadPosition, disableMethod = Movement.FixHeadPosition, toolTip = "Makes your head position spaz out for 0 to 1 seconds every 1 to 4 seconds."},
+                new ButtonInfo { buttonText = "Random Spaz Head", overlapText = "Random Spaz Head Rotation", method = Movement.RandomSpazHead, disableMethod = Fun.FixHead, toolTip = "Makes your head rotation spaz out for 0 to 1 seconds every 1 to 4 seconds."},
+                new ButtonInfo { buttonText = "Spaz Head Position", enableMethod = Movement.EnableSpazHead, method = Movement.SpazHeadPosition, disableMethod = Movement.FixHeadPosition, toolTip = "Makes your head position spaz out."},
+                new ButtonInfo { buttonText = "Spaz Head", overlapText = "Spaz Head Rotation", method = Movement.SpazHead, disableMethod = Fun.FixHead, toolTip = "Makes your head rotation spaz out."},
+                new ButtonInfo { buttonText = "Spaz Head X", method =() => Fun.SpazHead("x"), disableMethod = Fun.FixHead, toolTip = "Spaz your head on the X axis."},
+                new ButtonInfo { buttonText = "Spaz Head Y", method =() => Fun.SpazHead("y"), disableMethod = Fun.FixHead, toolTip = "Spaz your head on the Y axis."},
+                new ButtonInfo { buttonText = "Spaz Head Z", method =() => Fun.SpazHead("z"), disableMethod = Fun.FixHead, toolTip = "Spaz your head on the Z axis."},
+
+                new ButtonInfo { buttonText = "Laggy Rig", method = Movement.LaggyRig, disableMethod = Movement.EnableRig, toolTip = "Makes your rig laggy."},
+                new ButtonInfo { buttonText = "Smooth Rig", method =() => PhotonNetwork.SerializationRate = 30, disableMethod =() => PhotonNetwork.SerializationRate = 10, toolTip = "Makes your rig really smooth."},
+                new ButtonInfo { buttonText = "Update Rig <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.UpdateRig, disableMethod = Movement.EnableRig, toolTip = "Freezes your rig in place. Whenever you click <color=green>A</color>, your rig will update."},
+
+                new ButtonInfo { buttonText = "Freeze Rig Limbs", method = Movement.FreezeRigLimbs, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your hands and head freeze on your rig, but not your body."},
+                new ButtonInfo { buttonText = "Freeze Rig Body", method = Movement.FreezeRigBody, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your body freeze on your rig, but not your hands and head."},
+                new ButtonInfo { buttonText = "Freeze Rig", method = Movement.FreezeRig, disableMethod =() => { VRRig.LocalRig.enabled = true; Movement.startPosition = null; }, toolTip = "Makes your body freeze on your rig, but not your hands and head."},
+                
+                new ButtonInfo { buttonText = "Paralyze Rig", method = Movement.ParalyzeRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Removes your arms from your rig."},
+                new ButtonInfo { buttonText = "Chicken Rig", method = Movement.ChickenRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your rig look like a chicken."},
+                new ButtonInfo { buttonText = "Amputate Rig", method = Movement.AmputateRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Removes all of your limbs from your rig."},
+                new ButtonInfo { buttonText = "Decapitate Rig", enableMethod =() => TorsoPatch.VRRigLateUpdate += Movement.DecapitateRigUpdate, disableMethod =() => TorsoPatch.VRRigLateUpdate -= Movement.DecapitateRigUpdate, toolTip = "Removes the head from your rig."},
+
+                new ButtonInfo { buttonText = "Spin Rig Body", method =() => Movement.SetBodyPatch(true), disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Makes your body spin around, but not your head."},
+                new ButtonInfo { buttonText = "Spaz Rig Body", method =() => Movement.SetBodyPatch(true, 1), disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Gives your body a seizure, randomizing its rotation."},
+                new ButtonInfo { buttonText = "Reverse Rig Body", method =() => Movement.SetBodyPatch(true, 2), disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Flips your body around backwards, but not your head."},
+                new ButtonInfo { buttonText = "Rec Room Body", method = Movement.RecRoomBody, disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Makes your rig like how the Rec Room bodies are."},
+                new ButtonInfo { buttonText = "Freeze Body Rotation <color=grey>[</color><color=green>G</color><color=grey>]</color>", method = Movement.FreezeBodyRotation, disableMethod =() => Movement.SetBodyPatch(false), toolTip = "Freezes your body rotation in place, but not your head, when holding <color=green>grip</color>."},
+
+                new ButtonInfo { buttonText = "Auto Dance <color=grey>[</color><color=green>A</color><color=grey>]</color>", aliases = new[] { "Emote" }, method = Movement.AutoDance, toolTip = "Makes you dance when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Auto Griddy <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.AutoGriddy, toolTip = "Makes you griddy when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Auto T Pose <color=grey>[</color><color=green>A</color><color=grey>]</color>", overlapText = "T Pose <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.AutoTPose, toolTip = "Makes you t pose when holding <color=green>A</color>. Good for fly trolling."},
+                new ButtonInfo { buttonText = "Helicopter <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.Helicopter, toolTip = "Turns you into a helicopter when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Beyblade <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.Beyblade, toolTip = "Turns you into a beyblade when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Still Beyblade <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.StillBeyblade, disableMethod =() => Movement.stillBeybladeStartPos = Vector3.zero, toolTip = "Turns you into a beyblade when holding <color=green>A</color>. Doesn't move you."},
+                new ButtonInfo { buttonText = "Spin Bot", enableMethod =() => TorsoPatch.VRRigLateUpdate += Movement.TorsoPatch_VRRigLateUpdate, method =() => ghostException = true, disableMethod =() => { TorsoPatch.VRRigLateUpdate -= Movement.TorsoPatch_VRRigLateUpdate; ghostException = false; }, toolTip = "Makes your body spin around, but not your head."},
+                new ButtonInfo { buttonText = "Fan <color=grey>[</color><color=green>A</color><color=grey>]</color>", method = Movement.Fan, toolTip = "Turns you into a fan when holding <color=green>A</color>."},
+                new ButtonInfo { buttonText = "Ghost Animations", method = Movement.GhostAnimations, disableMethod = Movement.DisableGhostAnimations, toolTip = "Makes you look like a ghost, making your movement snappy and slow."},
+                new ButtonInfo { buttonText = "Minecraft Animations", method = Movement.MinecraftAnimations, disableMethod = Movement.EnableRig, toolTip = "Puts your hands down, and makes you walk when holding <color=green>A</color>. You can also point with <color=green>B</color>."},
+
+                new ButtonInfo { buttonText = "Stare at Nearby", overlapText = "Stare At Player Nearby", enableMethod =() => TorsoPatch.VRRigLateUpdate += Movement.StareAtNearby, disableMethod =() => TorsoPatch.VRRigLateUpdate -= Movement.StareAtNearby, toolTip = "Makes you stare at the nearest player."},
+                new ButtonInfo { buttonText = "Stare at Player Gun", method = Movement.StareAtGun, disableMethod =() => TorsoPatch.VRRigLateUpdate -= Movement.StareAtTarget, toolTip = "Makes you stare at whoever your hand desires."},
+                new ButtonInfo { buttonText = "Stare at All Players", aliases = new[] { "Owl" }, enableMethod = Movement.StareAtAll, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you stare at everyone in the room."},
+                new ButtonInfo { buttonText = "Eye Contact", enableMethod =() => TorsoPatch.VRRigLateUpdate += Movement.EyeContact, disableMethod =() => TorsoPatch.VRRigLateUpdate -= Movement.EyeContact, toolTip = "Makes you stare at anyone who is looking at you."},
+                new ButtonInfo { buttonText = "Floating Rig", enableMethod = Movement.EnableFloatingRig, method = Movement.FloatingRig, disableMethod = Movement.DisableFloatingRig, toolTip = "Makes your rig float."},
+
+                new ButtonInfo { buttonText = "Bees", method = Movement.Bees, disableMethod = Movement.EnableRig, toolTip = "Makes your rig teleport to random players, imitating the bees ghost."},
+                new ButtonInfo { buttonText = "Bees <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() =>{ if (rightGrab) {Movement.Bees(); } }, disableMethod = Movement.EnableRig, toolTip = "Makes your rig teleport to random players when holding <color=green>grip</color>, imitating the bees ghost."},
+
+                new ButtonInfo { buttonText = "Piggyback Gun", aliases = new[] { "Ride Gun" }, method = Movement.PiggybackGun, toolTip = "Teleports you on top of whoever your hand desires repeatedly."},
+                new ButtonInfo { buttonText = "Piggyback All", aliases = new[] { "Ride All" }, enableMethod = Movement.PiggybackAll, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you appear on top of everyone in the room"},
+
+                new ButtonInfo { buttonText = "Copy Movement Gun", method = Movement.CopyMovementGun, toolTip = "Makes your rig copy the movement of whoever your hand desires."},
+                new ButtonInfo { buttonText = "Copy Movement All", enableMethod = Movement.CopyMovementAll, disableMethod =() => { SerializePatch.OverrideSerialization = null; Movement.followPositions.Clear(); }, toolTip = "Makes your rig copy the movement of every player in the room."},
+
+                new ButtonInfo { buttonText = "Follow Player Gun", method = Movement.FollowPlayerGun, toolTip = "Flies your rig towards whoever your hand desires."},
+                new ButtonInfo { buttonText = "Follow All Players", enableMethod = Movement.FollowAllPlayers, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Flies your rig towards everyone in the room."},
+
+                new ButtonInfo { buttonText = "Orbit Player Gun", method = Movement.OrbitPlayerGun, toolTip = "Orbits your rig around whoever your hand desires."},
+                new ButtonInfo { buttonText = "Orbit All Players", enableMethod = Movement.OrbitAllPlayers, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Orbits your rig around everyone in the room."},
+
+                new ButtonInfo { buttonText = "Jumpscare Gun", method = Movement.JumpscareGun, toolTip = "Makes you jumpscare whoever your hand desires."},
+                new ButtonInfo { buttonText = "Jumpscare All", enableMethod = Movement.JumpscareAll, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you jumpscare everyone in the room."},
+
+                new ButtonInfo { buttonText = "Annoy Player Gun", method = Movement.AnnoyPlayerGun, toolTip = "Spazzes your body around whoever your hand desires, with sounds."},
+                new ButtonInfo { buttonText = "Annoy All Players", enableMethod = Movement.AnnoyAllPlayers, method =() => Sound.SoundSpam(337, true), disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Spazzes your body around everyone in the room, with sounds."},
+
+                new ButtonInfo { buttonText = "Intercourse Gun", aliases = new[] { "Sex Gun" }, method = Movement.IntercourseGun, toolTip = "Makes you thrust whoever your hand desires, with sounds."},
+                new ButtonInfo { buttonText = "Intercourse All", aliases = new[] { "Sex All" }, enableMethod = Movement.IntercourseAll, method = Movement.IntercourseNoises, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you thrust everyone in the room, with sounds."},
+
+                new ButtonInfo { buttonText = "Head Gun", aliases = new[] { "Blowjob Gun" }, method = Movement.HeadGun, toolTip = "Makes you thrust whoever your hand desires, but lower, with sounds."},
+                new ButtonInfo { buttonText = "Head All", aliases = new[] { "Blowjob All" }, enableMethod = Movement.HeadAll, method = Movement.IntercourseNoises, disableMethod =() => SerializePatch.OverrideSerialization = null, toolTip = "Makes you thrust everyone in the room, but lower, with sounds."}
             }
         };
 
@@ -2748,7 +2755,8 @@ namespace SignalMenu.Menu
             "Achievements",
             "Mod List",
             "Patreon Mods",
-            "Patreon Settings"
+            "Patreon Settings",
+            "Rig Mods"
         };
 
         public static int _currentCategoryIndex;

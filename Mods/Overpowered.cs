@@ -6553,6 +6553,117 @@ namespace SignalMenu.Mods
             kickCoroutine = null;
         }
 
+        public static IEnumerator SmartKickAll()
+        {
+            if (!NetworkSystem.Instance.InRoom)
+            {
+                NotificationManager.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> You are not in a room.");
+                kickCoroutine = null;
+                yield break;
+            }
+
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                foreach (Player p in PhotonNetwork.PlayerListOthers)
+                {
+                    PhotonNetwork.NetworkingClient.OpRaiseEvent(203, null, new RaiseEventOptions
+                    {
+                        TargetActors = new[] { p.ActorNumber }
+                    }, SendOptions.SendReliable);
+                }
+                NotificationManager.SendNotification("<color=grey>[</color><color=green>SUCCESS</color><color=grey>]</color> Kicked all players.");
+                kickCoroutine = null;
+                yield break;
+            }
+
+            SerializePatch.OverrideSerialization = () => false;
+            int totalKicked = 0;
+
+            while (!PhotonNetwork.LocalPlayer.IsMasterClient && PhotonNetwork.InRoom)
+            {
+                Player master = PhotonNetwork.MasterClient;
+                if (master == null || master.IsLocal)
+                    break;
+
+                VRRig rig = GetVRRigFromPlayer(master);
+                string name = $"<color=#{(rig != null ? ColorUtility.ToHtmlStringRGBA(rig.GetColor()) : "white")}>{master.NickName}</color>";
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>KICK</color><color=grey>]</color> Kicking master: {name}");
+
+                float timeout = Time.time + 20f;
+                int view = PhotonNetwork.AllocateViewID(0);
+
+                while (PhotonNetwork.PlayerList.Contains(master) && PhotonNetwork.InRoom)
+                {
+                    if (Time.time > timeout)
+                    {
+                        NotificationManager.SendNotification($"<color=grey>[</color><color=yellow>RETRY</color><color=grey>]</color> Retrying kick on {name}...");
+                        timeout = Time.time + 20f;
+                        view = PhotonNetwork.AllocateViewID(0);
+                    }
+
+                    RPCProtection();
+
+                    for (int i = 0; i < 500; i++)
+                    {
+                        PhotonNetwork.NetworkingClient.OpRaiseEvent(202, new Hashtable
+                        {
+                            { 0, "GameMode" },
+                            { 6, PhotonNetwork.ServerTimestamp },
+                            { 7, view }
+                        }, new RaiseEventOptions
+                        {
+                            TargetActors = new[] { master.ActorNumber }
+                        }, SendOptions.SendUnreliable);
+                    }
+
+                    yield return new WaitForSeconds(0.1f);
+
+                    if (!PhotonNetwork.InRoom || PhotonNetwork.LocalPlayer.IsMasterClient)
+                        break;
+                }
+
+                if (!PhotonNetwork.InRoom)
+                {
+                    NotificationManager.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> Got disconnected.");
+                    SerializePatch.OverrideSerialization = null;
+                    kickCoroutine = null;
+                    yield break;
+                }
+
+                if (!PhotonNetwork.PlayerList.Contains(master))
+                {
+                    totalKicked++;
+                    NotificationManager.SendNotification($"<color=grey>[</color><color=green>SUCCESS</color><color=grey>]</color> {name} kicked!");
+                }
+
+                yield return new WaitForSeconds(2f);
+            }
+
+            if (PhotonNetwork.LocalPlayer.IsMasterClient && PhotonNetwork.InRoom)
+            {
+                NotificationManager.SendNotification("<color=grey>[</color><color=cyan>MASTER</color><color=grey>]</color> Got master! Kicking remaining players...");
+                yield return new WaitForSeconds(0.5f);
+
+                foreach (Player player in PhotonNetwork.PlayerListOthers.ToArray())
+                {
+                    if (player == null || !PhotonNetwork.InRoom)
+                        continue;
+
+                    PhotonNetwork.NetworkingClient.OpRaiseEvent(203, null, new RaiseEventOptions
+                    {
+                        TargetActors = new[] { player.ActorNumber }
+                    }, SendOptions.SendReliable);
+
+                    totalKicked++;
+                }
+                NotificationManager.SendNotification($"<color=grey>[</color><color=green>KICKED</color><color=grey>]</color> All remaining players removed.");
+            }
+
+            SerializePatch.OverrideSerialization = null;
+            NotificationManager.SendNotification($"<color=grey>[</color><color=green>DONE</color><color=grey>]</color> Smart Kick All complete! Kicked {totalKicked} players.");
+            kickCoroutine = null;
+        }
+
         /*
          * Be rexon
          * Make mod that only works on master client

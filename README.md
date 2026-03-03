@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 <h1 align="center">Signal Menu</h1>
+=======
+﻿<h1 align="center">Signal Menu</h1>
+>>>>>>> Stashed changes
 
 <p align="center">
   <img src="Resources/GitHub/icon.png" width="150">
