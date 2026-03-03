@@ -10,7 +10,7 @@ A fork of ii's Stupid Menu with **252 safety patches** for anti-ban protection. 
 
 ## About
 
-Signal Menu adds a protection layer on top of ii's Stupid Menu. All the original mods are included, plus patches that spoof your identity, block telemetry, and bypass anti-cheat systems.
+Signal Menu adds a protection layer on top of ii's Stupid Menu. All the original mods are included, plus patches that spoof your identity, block telemetry, and bypass Gorilla Tag’s anti-cheat system.
 
 <details>
   <summary><b>What's different from ii's menu?</b></summary>
