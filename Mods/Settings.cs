@@ -253,8 +253,8 @@ namespace SignalMenu.Mods
                 TutorialSelector.useWorldSpace = true;
             }
 
-            TutorialSelector.startColor = BrightenColor(new Color32(255, 128, 0, 128));
-            TutorialSelector.endColor = BrightenColor(new Color32(255, 102, 0, 128));
+            TutorialSelector.startColor = BrightenColor(new Color32(0, 128, 255, 128));
+            TutorialSelector.endColor = BrightenColor(new Color32(0, 102, 204, 128));
 
             Vector3 Direction = ControllerUtilities.GetTrueRightHand().forward;
             Physics.Raycast(GorillaTagger.Instance.rightHandTransform.position + Direction / 4f, Direction, out var Ray, 512f, NoInvisLayerMask());
@@ -1024,35 +1024,35 @@ exit 0";
 
             switch (themeType)
             {
-                case 1: // Orange
+                case 1: // Blue (Signal Menu default)
                     backgroundColor = new ExtGradient
                     {
-                        colors = ExtGradient.GetSimpleGradient(new Color32(255, 128, 0, 128), new Color32(255, 102, 0, 128))
+                        colors = ExtGradient.GetSimpleGradient(new Color32(0, 128, 255, 128), new Color32(0, 102, 204, 128))
                     };
                     buttonColors = new[]
                     {
                         new ExtGradient // Released
                         {
-                            colors = ExtGradient.GetSolidGradient(new Color32(170, 85, 0, 255))
+                            colors = ExtGradient.GetSolidGradient(new Color32(0, 85, 170, 255))
                         },
                         new ExtGradient // Pressed
                         {
-                            colors = ExtGradient.GetSolidGradient(new Color32(85, 42, 0, 255))
+                            colors = ExtGradient.GetSolidGradient(new Color32(0, 42, 85, 255))
                         }
                     };
                     textColors = new[]
                     {
                         new ExtGradient // Title
                         {
-                            colors = ExtGradient.GetSolidGradient(new Color32(255, 190, 125, 255))
+                            colors = ExtGradient.GetSolidGradient(new Color32(125, 190, 255, 255))
                         },
                         new ExtGradient // Button Released
                         {
-                            colors = ExtGradient.GetSolidGradient(new Color32(255, 190, 125, 255))
+                            colors = ExtGradient.GetSolidGradient(new Color32(125, 190, 255, 255))
                         },
                         new ExtGradient // Button Clicked
                         {
-                            colors = ExtGradient.GetSolidGradient(new Color32(255, 190, 125, 255))
+                            colors = ExtGradient.GetSolidGradient(new Color32(125, 190, 255, 255))
                         }
                     };
                     break;
