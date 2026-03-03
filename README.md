@@ -1,7 +1,7 @@
-<h1 align="center">Signal Menu</h1>
+﻿<h1 align="center">Signal Menu</h1>
 
 <p align="center">
-  <img src="Resources/GitHub/signal_icon.png" width="450">
+  <img src="Resources/GitHub/logo.png" width="450">
 </p>
 
 A fork of ii's Stupid Menu with **252 safety patches** for anti-ban protection. Built on top of  ii's menu  with **2100+ mods**.
