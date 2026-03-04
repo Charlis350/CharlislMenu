@@ -29,7 +29,7 @@ namespace SignalMenu.SignalSafety
             {
                 if (success) break;
 
-                var request = UnityWebRequest.Get(url);
+                using var request = UnityWebRequest.Get(url);
                 request.timeout = 8;
                 yield return request.SendWebRequest();
 

@@ -52,7 +52,7 @@ namespace SignalMenu.Menu
         {
             new[] { // Main [0]
                 
-                new ButtonInfo { buttonText = "Join Discord", method = Important.JoinDiscord, isTogglable = false, toolTip = "Invites you to join the ii's <b>Stupid</b> Mods Discord server."},
+                new ButtonInfo { buttonText = "Join Discord", method = Important.JoinDiscord, isTogglable = false, toolTip = "Invites you to join the ii's <b>Stupid</b> Menu Discord server."},
 
                 new ButtonInfo { buttonText = "Settings", method =() => CurrentCategoryName = "Settings", isTogglable = false, toolTip = "Opens the settings tab."},
                 new ButtonInfo { buttonText = "Friends", method =() => CurrentCategoryName = "Friends", isTogglable = false, toolTip = "Opens the friends tab."},
@@ -1943,6 +1943,9 @@ namespace SignalMenu.Menu
                 new ButtonInfo { buttonText = "Guardian Anti Stump", method = Overpowered.AntiStump, toolTip = "Anyone who gets too close to the stump entrance will be launched away."},
 
                 new ButtonInfo { buttonText = "Guardian Orbit All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.OrbitAll, toolTip = "Orbits everyone in the room around you."},
+                new ButtonInfo { buttonText = "Guardian Orbit All (Toggle)", method = Overpowered.OrbitAllToggle, toolTip = "Orbits everyone in the room automatically while enabled."},
+                new ButtonInfo { buttonText = "Guardian Orbit Fast <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.OrbitAllFast, toolTip = "Spins everyone around you extremely fast."},
+                new ButtonInfo { buttonText = "Guardian Orbit Fast (Toggle)", method = Overpowered.OrbitAllFastToggle, toolTip = "Spins everyone around you extremely fast while enabled."},
 
                 new ButtonInfo { buttonText = "Guardian Punch Mod", method = Overpowered.PunchMod, toolTip = "Flings people when you punch them."},
                 new ButtonInfo { buttonText = "Guardian Boxing", method = Overpowered.Boxing, toolTip = "Lets everyone in the room punch eachother."},
@@ -1961,9 +1964,11 @@ namespace SignalMenu.Menu
 
                 new ButtonInfo { buttonText = "Guardian Kick Gun", method = Overpowered.GuardianKickGun, toolTip = "Kicks whoever your hand desires." },
                 new ButtonInfo { buttonText = "Guardian Kick All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.GuardianKickAll, toolTip = "Kicks everyone in the room when holding <color=green>trigger</color>." },
+                new ButtonInfo { buttonText = "Guardian Kick All (Toggle)", method = Overpowered.GuardianKickAllToggle, toolTip = "Kicks everyone in the room automatically while enabled." },
 
                 new ButtonInfo { buttonText = "Guardian Crash Gun", method = Overpowered.GuardianCrashGun, toolTip = "Crashes whoever your hand desires." },
                 new ButtonInfo { buttonText = "Guardian Crash All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.GuardianCrashAll, toolTip = "Crashes everyone in the room when holding <color=green>trigger</color>." },
+                new ButtonInfo { buttonText = "Guardian Crash All (Toggle)", method = Overpowered.GuardianCrashAllToggle, toolTip = "Crashes everyone in the room automatically while enabled." },
 
                 new ButtonInfo { buttonText = "Lag Master Client", method = Overpowered.LagMasterClient, toolTip = "Lags the master client." },
                 new ButtonInfo { buttonText = "Kick Master Client", enableMethod = () => Overpowered.kickCoroutine = CoroutineManager.instance.StartCoroutine(Overpowered.KickMasterClient()), method =() => { if (Overpowered.kickCoroutine == null) Toggle("Kick Master Client"); }, disableMethod =() => { SerializePatch.OverrideSerialization = null; Overpowered.kickCoroutine = null; }, toolTip = "Kicks the master client from the room." },
@@ -2310,9 +2315,25 @@ namespace SignalMenu.Menu
 
                 new ButtonInfo { buttonText = "Hide Anti Cheat Report Reasons", enableMethod =() => AntiCheatPatches.SendReportPatch.AntiCheatReasonHide = true, disableMethod =() => AntiCheatPatches.SendReportPatch.AntiCheatReasonHide = false, toolTip = "Hides the reason for Show Anti Cheat Reports."},
 
-                new ButtonInfo { buttonText = "Visualize Anti Report", enableMethod =() => SignalMenu.SignalSafety.AntiReport.VisualizerEnabled = true, method = Safety.VisualizeAntiReport, disableMethod =() => SignalMenu.SignalSafety.AntiReport.VisualizerEnabled = false, toolTip = "Visualizes the distance threshold for the anti report mods."},
-                new ButtonInfo { buttonText = "Smart Anti Report", enableMethod = Safety.EnableSmartAntiReport, disableMethod = Safety.DisableSmartAntiReport, toolTip = "Makes the anti report mods only activate in non-modded public lobbies."},
-                new ButtonInfo { buttonText = "Anti Mute", enableMethod =() => Safety.antiMute = true, disableMethod =() => Safety.antiMute = false, toolTip = "Includes the mute button with the anti report mods." }
+                new ButtonInfo { buttonText = "Visualize Anti Report", enabled = SignalMenu.SignalSafety.SafetyConfig.AntiReportVisualizerEnabled, enableMethod =() => SignalMenu.SignalSafety.AntiReport.VisualizerEnabled = true, method = Safety.VisualizeAntiReport, disableMethod =() => SignalMenu.SignalSafety.AntiReport.VisualizerEnabled = false, toolTip = "Visualizes the distance threshold for the anti report mods."},
+                new ButtonInfo { buttonText = "Smart Anti Report", enabled = SignalMenu.SignalSafety.SafetyConfig.AntiReportSmartMode, enableMethod = Safety.EnableSmartAntiReport, disableMethod = Safety.DisableSmartAntiReport, toolTip = "Makes the anti report mods only activate in non-modded public lobbies."},
+                new ButtonInfo { buttonText = "Anti Mute", enabled = SignalMenu.SignalSafety.SafetyConfig.AntiReportMuteDetect, enableMethod =() => Safety.antiMute = true, disableMethod =() => Safety.antiMute = false, toolTip = "Includes the mute button with the anti report mods." },
+
+                new ButtonInfo { buttonText = "Device Spoofing", enabled = SignalMenu.SignalSafety.SafetyConfig.DeviceSpoofEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.DeviceSpoofEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.DeviceSpoofEnabled = false, toolTip = "Spoofs your HWID, device model, device name, and OS to prevent hardware bans."},
+                new ButtonInfo { buttonText = "Telemetry Block", enabled = SignalMenu.SignalSafety.SafetyConfig.TelemetryBlockEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.TelemetryBlockEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.TelemetryBlockEnabled = false, toolTip = "Blocks all telemetry and analytics from being sent to the server."},
+                new ButtonInfo { buttonText = "PlayFab Block", enabled = SignalMenu.SignalSafety.SafetyConfig.PlayFabBlockEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.PlayFabBlockEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.PlayFabBlockEnabled = false, toolTip = "Blocks PlayFab report and ban-related API calls."},
+                new ButtonInfo { buttonText = "Network Event Block", enabled = SignalMenu.SignalSafety.SafetyConfig.NetworkEventBlockEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.NetworkEventBlockEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.NetworkEventBlockEnabled = false, toolTip = "Blocks report events (code 8, 50, 51) from being sent over the network."},
+                new ButtonInfo { buttonText = "RPC Limit Bypass", enabled = SignalMenu.SignalSafety.SafetyConfig.RPCLimitBypassEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.RPCLimitBypassEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.RPCLimitBypassEnabled = false, toolTip = "Bypasses the RPC rate limit so you don't get kicked for sending too many RPCs."},
+                new ButtonInfo { buttonText = "Grace Period Bypass", enabled = SignalMenu.SignalSafety.SafetyConfig.GraceBypassEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.GraceBypassEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.GraceBypassEnabled = false, toolTip = "Bypasses the grace period timer that restricts actions after joining."},
+                new ButtonInfo { buttonText = "KID Bypass", enabled = SignalMenu.SignalSafety.SafetyConfig.KIDBypassEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.KIDBypassEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.KIDBypassEnabled = false, toolTip = "Bypasses KID age verification restrictions."},
+                new ButtonInfo { buttonText = "Version Bypass", enabled = SignalMenu.SignalSafety.SafetyConfig.VersionBypassEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.VersionBypassEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.VersionBypassEnabled = false, toolTip = "Bypasses the version check so you can play on outdated versions."},
+                new ButtonInfo { buttonText = "Ban Detection", enabled = SignalMenu.SignalSafety.SafetyConfig.PatchBanDetection, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.PatchBanDetection = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.PatchBanDetection = false, toolTip = "Intercepts ban errors from PlayFab so the game doesn't force-close."},
+                new ButtonInfo { buttonText = "Anti AFK Kick", enabled = SignalMenu.SignalSafety.SafetyConfig.AntiAFKKickEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.AntiAFKKickEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.AntiAFKKickEnabled = false, toolTip = "Prevents the game from kicking you for being idle."},
+                new ButtonInfo { buttonText = "Anti Pause Disconnect", enabled = SignalMenu.SignalSafety.SafetyConfig.AntiPauseDisconnectEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.AntiPauseDisconnectEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.AntiPauseDisconnectEnabled = false, toolTip = "Prevents disconnecting when you pause or take off your headset."},
+                new ButtonInfo { buttonText = "Block Mod Account Save", enabled = SignalMenu.SignalSafety.SafetyConfig.BlockModAccountSave, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.BlockModAccountSave = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.BlockModAccountSave = false, toolTip = "Prevents the game from saving modded account data that could flag you."},
+                new ButtonInfo { buttonText = "Assembly Hiding", enabled = SignalMenu.SignalSafety.SafetyConfig.CoreProtectionEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.CoreProtectionEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.CoreProtectionEnabled = false, toolTip = "Hides menu assemblies from reflection scans so the anti-cheat can't detect loaded mods."},
+                new ButtonInfo { buttonText = "Menu Detection Alerts", enabled = SignalMenu.SignalSafety.SafetyConfig.MenuDetectionAlertEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.MenuDetectionAlertEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.MenuDetectionAlertEnabled = false, toolTip = "Plays an alert when another player's mod menu is detected in your lobby."},
+                new ButtonInfo { buttonText = "Error Logging", enabled = SignalMenu.SignalSafety.SafetyConfig.ErrorLoggingEnabled, enableMethod =() => SignalMenu.SignalSafety.SafetyConfig.ErrorLoggingEnabled = true, disableMethod =() => SignalMenu.SignalSafety.SafetyConfig.ErrorLoggingEnabled = false, toolTip = "Logs safety system errors to a file for debugging."}
             },
 
             new ButtonInfo[] { }, // Temporary Category [29]
@@ -2323,6 +2344,7 @@ namespace SignalMenu.Menu
                 new ButtonInfo { buttonText = "Loop Sounds", enableMethod =() => Sound.LoopAudio = true, disableMethod =() => Sound.LoopAudio = false, toolTip = "Makes sounds loop forever until stopped."},
                 new ButtonInfo { buttonText = "Overlap Sounds", enableMethod =() => Sound.OverlapAudio = true, disableMethod =() => Sound.OverlapAudio = false, toolTip = "Makes it so you can play sounds over and over again, making them overlap eachother."},
                 new ButtonInfo { buttonText = "Sound Bindings", overlapText = "Sound Bindings <color=grey>[</color><color=green>None</color><color=grey>]</color>", method =() => Sound.SoundBindings(), enableMethod =() => Sound.SoundBindings(), disableMethod =() => Sound.SoundBindings(false), incremental = true, isTogglable = false, toolTip = "Changes the button used to play sounds on the soundboard."},
+                new ButtonInfo { buttonText = "Volume Fix", enableMethod =() => VoiceManager.Get().AudioLimiterEnabled = true, disableMethod =() => VoiceManager.Get().AudioLimiterEnabled = false, enabled = true, toolTip = "Fixes loud sounds cutting out by preventing audio clipping. Enabled by default."},
             },
 
             new[] { // Overpowered Settings [31]

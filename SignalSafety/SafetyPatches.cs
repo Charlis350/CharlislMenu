@@ -83,27 +83,23 @@ namespace SignalMenu.SignalSafety.Patches
         }
 
         public static bool BanAlreadyAnnounced = false;
+        public static bool BanErrorDetected = false;
+
+        public static void MarkBanDetected()
+        {
+            BanErrorDetected = true;
+        }
 
         public static void AnnounceBanOnce()
         {
+            MarkBanDetected();
             if (BanAlreadyAnnounced) return;
             BanAlreadyAnnounced = true;
 
-            Plugin.Instance?.Log("[BAN] Account ban detected ? playing alert");
+            Plugin.Instance?.Log("[BAN] Account ban detected - playing alert");
             AudioManager.Play("banned", AudioManager.AudioCategory.Ban);
-            AudioManager.Play("antibantutorial", AudioManager.AudioCategory.Ban);
-            try { NotificationManager.SendNotification("<color=grey>[</color><color=red>BAN DETECTED</color><color=grey>]</color> Your account has been flagged. Anti-ban is active."); } catch { }
-        }
-
-        private static bool _quitBlockAnnounced = false;
-        public static void AnnounceQuitBlocked()
-        {
-            if (_quitBlockAnnounced) return;
-            _quitBlockAnnounced = true;
-
-            Plugin.Instance?.Log("[BAN] Quit blocked mid-game - playing ban notification TTS");
             AudioManager.Play("ban_notification_dramatic", AudioManager.AudioCategory.Ban);
-            try { NotificationManager.SendNotification("<color=grey>[</color><color=red>BAN ALERT</color><color=grey>]</color> Quit was blocked mid-game. Ban system intercepted."); } catch { }
+            try { NotificationManager.SendNotification("<color=grey>[</color><color=red>BAN DETECTED</color><color=grey>]</color> Your account has been flagged. Anti-ban is active."); } catch { }
         }
 
         private static string _spoofedHWID = null;
@@ -1843,7 +1839,7 @@ namespace SignalMenu.SignalSafety.Patches
         public static bool Prefix()
         {
             if (!SafetyConfig.PatchBanDetection) return true;
-            Plugin.Instance?.Log("[BAN] PlayFabAuthenticator.ShowBanMessage called ? account IS banned server-side");
+            Plugin.Instance?.Log("[BAN] PlayFabAuthenticator.ShowBanMessage called - account IS banned server-side");
             SafetyPatches.AnnounceBanOnce();
             return false;
         }
@@ -3025,7 +3021,7 @@ namespace SignalMenu.SignalSafety.Patches
             {
                 if (error?.Error == PlayFabErrorCode.AccountBanned)
                 {
-                    Plugin.Instance?.Log("[BAN] ReauthOrBan intercepted ? prevented game shutdown");
+                    Plugin.Instance?.Log("[BAN] ReauthOrBan intercepted - prevented game shutdown");
                     SafetyPatches.AnnounceBanOnce();
                     return false;
                 }
@@ -3326,7 +3322,6 @@ namespace SignalMenu.SignalSafety.Patches
         public static void Prefix()
         {
             PatchApplicationQuit._intentionalQuit = true;
-            Plugin.Instance?.Log("[Exit] User clicked exit button - allowing quit");
         }
     }
 
@@ -3335,47 +3330,9 @@ namespace SignalMenu.SignalSafety.Patches
     public class PatchApplicationQuit
     {
         internal static bool _intentionalQuit = false;
-        internal static float _startupTime = -1f;
-        private const float STARTUP_GRACE_PERIOD = 120f;
-
-        internal static bool IsInStartupGracePeriod()
-        {
-            if (_startupTime < 0f) _startupTime = Time.realtimeSinceStartup;
-            return (Time.realtimeSinceStartup - _startupTime) < STARTUP_GRACE_PERIOD;
-        }
-
-        internal static bool HasBeenInGame()
-        {
-            try
-            {
-                if (!PhotonNetwork.IsConnectedAndReady) return false;
-                if (!PhotonNetwork.InRoom) return false;
-                return true;
-            }
-            catch { return false; }
-        }
 
         [HarmonyPrefix]
-        public static bool Prefix()
-        {
-            if (_intentionalQuit) return true;
-            if (!SafetyConfig.PatchBanDetection) return true;
-            if (IsInStartupGracePeriod())
-            {
-                Plugin.Instance?.Log("[Exit] Application.Quit() during startup grace period - allowing");
-                return true;
-            }
-            if (!HasBeenInGame())
-            {
-                Plugin.Instance?.Log("[Exit] Application.Quit() but not in-game - allowing");
-                return true;
-            }
-            
-            Plugin.Instance?.Log("[BAN] Application.Quit() blocked — game tried to force-close (likely ban detection)");
-            SafetyPatches.AnnounceBanOnce();
-            SafetyPatches.AnnounceQuitBlocked();
-            throw new OperationCanceledException("Operation was cancelled");
-        }
+        public static bool Prefix() => true;
     }
 
     [HarmonyPatch(typeof(Application), "Quit", new Type[] { typeof(int) })]
@@ -3383,26 +3340,7 @@ namespace SignalMenu.SignalSafety.Patches
     public class PatchApplicationQuitCode
     {
         [HarmonyPrefix]
-        public static bool Prefix()
-        {
-            if (PatchApplicationQuit._intentionalQuit) return true;
-            if (!SafetyConfig.PatchBanDetection) return true;
-            if (PatchApplicationQuit.IsInStartupGracePeriod())
-            {
-                Plugin.Instance?.Log("[Exit] Application.Quit(int) during startup grace period - allowing");
-                return true;
-            }
-            if (!PatchApplicationQuit.HasBeenInGame())
-            {
-                Plugin.Instance?.Log("[Exit] Application.Quit(int) but not in-game - allowing");
-                return true;
-            }
-            
-            Plugin.Instance?.Log("[BAN] Application.Quit(int) blocked — game tried to force-close (likely ban detection)");
-            SafetyPatches.AnnounceBanOnce();
-            SafetyPatches.AnnounceQuitBlocked();
-            throw new OperationCanceledException("Operation was cancelled");
-        }
+        public static bool Prefix() => true;
     }
 
     [HarmonyPatch(typeof(GorillaVRConstraint), "Tick")]

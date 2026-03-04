@@ -129,7 +129,7 @@ namespace SignalMenu.Managers
             if (File.Exists($"{PluginInfo.BaseDirectory}/Plugins/" + filename))
                 File.Delete($"{PluginInfo.BaseDirectory}/Plugins/" + filename);
 
-            WebClient stream = new WebClient();
+            using WebClient stream = new WebClient();
             stream.DownloadFile(url, $"{PluginInfo.BaseDirectory}/Plugins/" + filename);
 
             LoadPlugins();

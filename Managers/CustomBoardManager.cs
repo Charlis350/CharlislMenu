@@ -175,7 +175,7 @@ namespace SignalMenu.Managers
         "A fork of ii's Stupid Menu by iiDk\n\n" +
         "This menu is free and open source. If you paid for this, you got scammed.\n" +
         "<b>{1}</b> mods available.\n\n" +
-        "<color=red>You are responsible for any bans.</color>\n\n" +
+        "<color=#0080FF>You are responsible for any bans.</color>\n\n" +
         "Forked by mojhehh\n" +
         "<alpha=80>{2} {0} | {3}<alpha=255>";
 

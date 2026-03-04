@@ -108,6 +108,10 @@ namespace SignalMenu.Managers
             set { gain = value; }
         }
 
+        public bool AudioLimiterEnabled { get; set; } = true;
+        private const float LimiterThreshold = 0.85f;
+        private const float LimiterRatio = 4f;
+
         /// <summary>
         /// Gets or sets the pitch. Lowest possible value can be 0.1f.
         /// </summary>
@@ -419,6 +423,13 @@ namespace SignalMenu.Managers
                 mixed += Mathf.Lerp(clip.Samples[index], clip.Samples[nextIndex], frac);
 
                 clip.Position += clip.Step;
+            }
+
+            if (AudioLimiterEnabled && Mathf.Abs(mixed) > LimiterThreshold)
+            {
+                float sign = Mathf.Sign(mixed);
+                float excess = Mathf.Abs(mixed) - LimiterThreshold;
+                mixed = sign * (LimiterThreshold + excess / LimiterRatio);
             }
 
             return mixed;

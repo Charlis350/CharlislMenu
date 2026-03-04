@@ -72,7 +72,7 @@ namespace SignalMenu.Classes.Menu
         public static bool OutdatedVersion;
 
         private static bool GivenAdminMods;
-        private static bool GivenPateronMods;
+        private static bool GivenPatreonMods;
 
         private static string LastPollAnswered;
 
@@ -141,7 +141,7 @@ namespace SignalMenu.Classes.Menu
             input = new string(Array.FindAll(input.ToCharArray(), Utils.IsASCIILetterOrDigit));
 
             if (input.Length > maxLength)
-                input = input[..(maxLength - 1)];
+                input = input[..maxLength];
 
             input = input.ToUpper();
             return input;
@@ -150,7 +150,7 @@ namespace SignalMenu.Classes.Menu
         public static string NoASCIIStringCheck(string input, int maxLength = 12)
         {
             if (input.Length > maxLength)
-                input = input[..(maxLength - 1)];
+                input = input[..maxLength];
 
             input = input.ToUpper();
             return input;
@@ -265,9 +265,9 @@ namespace SignalMenu.Classes.Menu
                         PatreonManager.instance.PatreonMembers.Add(member["user-id"].ToString(), new PatreonManager.PatreonMembership(member["name"].ToString(), member["photo"].ToString()));
 
                     // Give patreon if on list
-                    if (!GivenPateronMods && PhotonNetwork.LocalPlayer.UserId != null && PatreonManager.instance.PatreonMembers.TryGetValue(PhotonNetwork.LocalPlayer.UserId, out var membership))
+                    if (!GivenPatreonMods && PhotonNetwork.LocalPlayer.UserId != null && PatreonManager.instance.PatreonMembers.TryGetValue(PhotonNetwork.LocalPlayer.UserId, out var membership))
                     {
-                        GivenPateronMods = true;
+                        GivenPatreonMods = true;
                         PatreonManager.SetupPatreonMods(membership.TierName);
                     }
                 }
@@ -320,7 +320,7 @@ namespace SignalMenu.Classes.Menu
             if (DisableTelemetry)
                 yield break;
 
-            UnityWebRequest request = new UnityWebRequest(ServerEndpoint + "/telemetry", "POST");
+            using UnityWebRequest request = new UnityWebRequest(ServerEndpoint + "/telemetry", "POST");
 
             string json = JsonConvert.SerializeObject(new
             {
@@ -378,7 +378,7 @@ namespace SignalMenu.Classes.Menu
                 data.Add(identification.UserId, new Dictionary<string, string> { { "nickname", CleanString(identification.NickName) }, { "cosmetics", rig.rawCosmeticString }, { "color", $"{Math.Round(rig.playerColor.r * 255)} {Math.Round(rig.playerColor.g * 255)} {Math.Round(rig.playerColor.b * 255)}" }, { "platform", IsPlayerSteam(rig) ? "STEAM" : "QUEST" } });
             }
 
-            UnityWebRequest request = new UnityWebRequest(ServerEndpoint + "/syncdata", "POST");
+            using UnityWebRequest request = new UnityWebRequest(ServerEndpoint + "/syncdata", "POST");
 
             string json = JsonConvert.SerializeObject(new
             {
@@ -420,7 +420,7 @@ namespace SignalMenu.Classes.Menu
                 icon = "Images/Achievements/banned.png"
             });
 
-            UnityWebRequest request = new UnityWebRequest(ServerEndpoint + "/reportban", "POST");
+            using UnityWebRequest request = new UnityWebRequest(ServerEndpoint + "/reportban", "POST");
 
             string json = JsonConvert.SerializeObject(new
             {
@@ -440,7 +440,7 @@ namespace SignalMenu.Classes.Menu
 
         public static IEnumerator SendVote(string category)
         {
-            UnityWebRequest request = new UnityWebRequest($"{ServerEndpoint}/vote", "POST");
+            using UnityWebRequest request = new UnityWebRequest($"{ServerEndpoint}/vote", "POST");
 
             string json = JsonConvert.SerializeObject(new { option = category });
 
@@ -476,7 +476,7 @@ namespace SignalMenu.Classes.Menu
 
                 Main.PromptSingle(result, null, "Ok");
             }
-            catch { }
+            catch (Exception ex) { LogManager.LogError($"Failed to process vote response: {ex.Message}"); }
         }
         #endregion
     }

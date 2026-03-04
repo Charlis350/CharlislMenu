@@ -705,7 +705,7 @@ namespace SignalMenu.Menu
                     {
                         VRRig.LocalRig.PlayHandTapLocal(84, true, 0.4f);
                         VRRig.LocalRig.PlayHandTapLocal(84, false, 0.4f);
-                        NotificationManager.SendNotification("<color=grey>[</color><color=#FF00FF>FUN FACT</color><color=grey>]</color> " + facts[Random.Range(0, facts.Length - 1)] + "");
+                        NotificationManager.SendNotification("<color=grey>[</color><color=#FF00FF>FUN FACT</color><color=grey>]</color> " + facts[Random.Range(0, facts.Length)] + "");
                     }
                 }
 
@@ -6983,7 +6983,7 @@ jgs \_   _/ |Oo\
         public static readonly List<string> skipButtons = new List<string> { };
         public static bool translate;
 
-        public static string serverLink = "https://discord.gg/BgKHPdB4e7";
+        public static string serverLink = "https://discord.gg/sGvF6xC7VV";
 
         public static int arrowType;
         public static readonly string[][] arrowTypes = {

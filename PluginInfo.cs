@@ -16,8 +16,8 @@ namespace SignalMenu
         public const string GUID = "com.unity.xr.inputmodule";
         public const string Name = "VRInputModule";
         public const string Description = "Anti-ban mod menu with 252 safety patches, device spoofing, identity protection, and detection evasion.";
-        public const string BuildTimestamp = "2026-03-02T20:45:00Z";
-        public const string Version = "1.3.1";
+        public const string BuildTimestamp = "2026-03-03T12:00:00Z";
+        public const string Version = "1.3.2";
         public const int SafetyPatchCount = 252;
         public const int ModCount = 2125;
 

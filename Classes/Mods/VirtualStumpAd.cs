@@ -107,7 +107,7 @@ namespace SignalMenu.Classes.Mods
                 if (featuredMapText != null)
                 {
                     oldText              = featuredMapText.text;
-                    featuredMapText.text = ObfStr.MenuNameOrange;
+                    featuredMapText.text = ObfStr.MenuNameBlue;
                     MapInfoText.SetActive(true);
                 }
 

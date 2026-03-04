@@ -840,7 +840,7 @@ namespace SignalMenu.Managers
 
         public static IEnumerator ExecuteAction(string uid, string action, Action success, Action<string> failure)
         {
-            UnityWebRequest request = new UnityWebRequest($"{PluginInfo.ServerAPI}/{action}", "POST");
+            using UnityWebRequest request = new UnityWebRequest($"{PluginInfo.ServerAPI}/{action}", "POST");
 
             string json = JsonConvert.SerializeObject(new { uid });
 

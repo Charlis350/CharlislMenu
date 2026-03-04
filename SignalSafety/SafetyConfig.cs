@@ -107,6 +107,10 @@ namespace SignalMenu.SignalSafety
         public static bool PatchBadNameCheck = true;
         public static bool PatchAutoBanList = true;
 
+        public static bool VerboseNetworkLogging = false;
+        public static int NetworkEventCount = 0;
+        public static float NetworkEventResetTime = 0f;
+
         private static bool _firstOpen = false;
         public static bool IsFirstOpen => _firstOpen;
 

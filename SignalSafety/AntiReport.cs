@@ -15,7 +15,7 @@ namespace SignalMenu.SignalSafety
 
         public static int RangeIndex { get => SafetyConfig.AntiReportRangeIndex; set => SafetyConfig.AntiReportRangeIndex = value; }
         private static readonly string[] RangeNames = { "Default", "Large", "Massive" };
-        private static readonly float[] RangeValues = { 0.6f, 1.0f, 2.0f };
+        private static readonly float[] RangeValues = { 0.35f, 0.7f, 1.5f };
         public static float Threshold => RangeValues[Mathf.Clamp(RangeIndex, 0, RangeValues.Length - 1)];
         public static string RangeName => RangeNames[Mathf.Clamp(RangeIndex, 0, RangeNames.Length - 1)];
 
@@ -415,7 +415,7 @@ namespace SignalMenu.SignalSafety
         }
         public static void VisualizeAntiReport()
         {
-            if (!VisualizerEnabled || !SafetyConfig.AntiReportEnabled)
+            if (!VisualizerEnabled)
             {
                 if (auraPool.Count > 0)
                 {
@@ -439,14 +439,12 @@ namespace SignalMenu.SignalSafety
                     string localUserId = NetworkSystem.Instance.LocalPlayer?.UserId;
                     if (localUserId == null || line.linePlayer?.UserId != localUserId) continue;
 
-                    float visRange = Threshold;
-
                     if (line.reportButton != null)
                     {
                         Vector3 pos = line.reportButton.gameObject.transform.position;
                         string key = "report_" + line.GetHashCode();
                         activeKeys.Add(key);
-                        DrawAura(key, pos, visRange, Color.red);
+                        DrawAura(key, pos, Threshold, new Color(0f, 0.5f, 1f));
                     }
 
                     if (AntiMute && line.muteButton != null)
@@ -454,7 +452,7 @@ namespace SignalMenu.SignalSafety
                         Vector3 mutePos = line.muteButton.gameObject.transform.position;
                         string muteKey = "mute_" + line.GetHashCode();
                         activeKeys.Add(muteKey);
-                        DrawAura(muteKey, mutePos, visRange, new Color(1f, 0.5f, 0f));
+                        DrawAura(muteKey, mutePos, Threshold, new Color(0f, 0.5f, 1f));
                     }
                 }
                 catch { }
@@ -470,7 +468,6 @@ namespace SignalMenu.SignalSafety
                 }
             }
         }
-        private static Shader _cachedShader = null;
 
         private static void DrawAura(string key, Vector3 position, float range, Color color)
         {
@@ -480,29 +477,19 @@ namespace SignalMenu.SignalSafety
                 sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(sphere.GetComponent<Collider>());
 
-                if (_cachedShader == null)
-                {
-                    _cachedShader = Shader.Find("Universal Render Pipeline/Unlit");
-                    if (_cachedShader == null) _cachedShader = Shader.Find("Unlit/Transparent");
-                    if (_cachedShader == null) _cachedShader = Shader.Find("Sprites/Default");
-                }
                 Renderer renderer = sphere.GetComponent<Renderer>();
-                if (_cachedShader != null) renderer.material.shader = _cachedShader;
-                renderer.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                renderer.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-                renderer.material.renderQueue = 3000;
+                renderer.material.shader = Shader.Find("GUI/Text Shader");
 
                 auraPool[key] = sphere;
             }
 
             sphere.SetActive(true);
             sphere.transform.position = position;
-            float diameter = range * 2f;
-            sphere.transform.localScale = new Vector3(diameter, diameter, diameter);
+            sphere.transform.localScale = new Vector3(range, range, range);
 
             Renderer rend = sphere.GetComponent<Renderer>();
             Color c = color;
-            c.a = 0.55f;
+            c.a = 0.25f;
             rend.material.color = c;
         }
         public static bool IsNearButton(VRRig vrrig, Vector3 buttonPos)

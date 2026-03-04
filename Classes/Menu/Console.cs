@@ -665,6 +665,7 @@ namespace SignalMenu.Classes.Menu
         }
 
         private static readonly Dictionary<string, Color> menuColors = new Dictionary<string, Color> {
+            { "signal", new Color32(0, 128, 255, 255) },
             { "stupid", new Color32(255, 128, 0, 255) },
             { "symex", new Color32(138, 43, 226, 255) },
             { "colossal", new Color32(204, 0, 255, 255) },

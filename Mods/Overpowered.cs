@@ -520,7 +520,6 @@ namespace SignalMenu.Mods
             if (Time.time > crashAllDelay && rig.transform.position.x < -5)
             {
                 crashAllDelay = Time.time + 0.1f;
-                
                 BetaSetVelocityPlayer(target, (rig.transform.position.y > 55f ? Vector3.right : Vector3.up) * 50f);
                 RPCProtection();
             }
@@ -537,8 +536,18 @@ namespace SignalMenu.Mods
                 {
                     if (Time.time > crashAllDelay && lockTarget.transform.position.x < -5)
                     {
-                        crashAllDelay = Time.time + 0.1f;
-                        BetaSetVelocityPlayer(GetPlayerFromVRRig(lockTarget), (lockTarget.transform.position.y > 55f ? Vector3.right : Vector3.up) * 50f);
+                        crashAllDelay = Time.time + 0.05f;
+                        
+                        if (!crashPulseCount.ContainsKey(lockTarget)) crashPulseCount[lockTarget] = 0;
+                        if (!lastCrashTime.ContainsKey(lockTarget)) lastCrashTime[lockTarget] = 0;
+                        
+                        if (Time.time - lastCrashTime[lockTarget] > 1f) crashPulseCount[lockTarget] = 0;
+                        
+                        Vector3 velocity = GetSmartCrashVelocity(lockTarget, crashPulseCount[lockTarget]);
+                        BetaSetVelocityPlayer(GetPlayerFromVRRig(lockTarget), velocity);
+                        
+                        crashPulseCount[lockTarget]++;
+                        lastCrashTime[lockTarget] = Time.time;
                         RPCProtection();
                     }
                 }
@@ -559,14 +568,67 @@ namespace SignalMenu.Mods
             }
         }
 
+        private static Dictionary<VRRig, int> crashPulseCount = new Dictionary<VRRig, int>();
+        private static Dictionary<VRRig, float> lastCrashTime = new Dictionary<VRRig, float>();
+
+        private static Vector3 GetSmartCrashVelocity(VRRig rig, int pulse)
+        {
+            Vector3 baseDir = rig.transform.position.y > 55f ? Vector3.right : Vector3.up;
+            float angle = (pulse * 45f) + UnityEngine.Random.Range(-15f, 15f);
+            Vector3 sideways = Quaternion.Euler(0, angle, 0) * Vector3.forward * 0.3f;
+            if (pulse % 3 == 1)
+                baseDir = (Vector3.up + Vector3.right).normalized;
+            else if (pulse % 3 == 2)
+                baseDir = (Vector3.up + Vector3.left).normalized;
+            return (baseDir + sideways).normalized * 50f;
+        }
+
         public static void GuardianCrashAll()
         {
             if (rightTrigger > 0.5f && Time.time > crashAllDelay)
             {
-                crashAllDelay = Time.time + 0.1f;
+                crashAllDelay = Time.time + 0.05f;
                 foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal && rig.transform.position.x < -5))
                 {
-                    BetaSetVelocityPlayer(GetPlayerFromVRRig(rig), (rig.transform.position.y > 55f ? Vector3.right : Vector3.up) * 50f);
+                    if (!crashPulseCount.ContainsKey(rig)) crashPulseCount[rig] = 0;
+                    if (!lastCrashTime.ContainsKey(rig)) lastCrashTime[rig] = 0;
+                    if (Time.time - lastCrashTime[rig] > 1f) crashPulseCount[rig] = 0;
+                    Vector3 velocity = GetSmartCrashVelocity(rig, crashPulseCount[rig]);
+                    BetaSetVelocityPlayer(GetPlayerFromVRRig(rig), velocity);
+                    crashPulseCount[rig]++;
+                    lastCrashTime[rig] = Time.time;
+                    RPCProtection();
+                }
+            }
+        }
+
+        public static void GuardianCrashAllToggle()
+        {
+            if (Time.time > crashAllDelay)
+            {
+                crashAllDelay = Time.time + 0.05f;
+                foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal && rig.transform.position.x < -5))
+                {
+                    if (!crashPulseCount.ContainsKey(rig)) crashPulseCount[rig] = 0;
+                    if (!lastCrashTime.ContainsKey(rig)) lastCrashTime[rig] = 0;
+                    if (Time.time - lastCrashTime[rig] > 1f) crashPulseCount[rig] = 0;
+                    Vector3 velocity = GetSmartCrashVelocity(rig, crashPulseCount[rig]);
+                    BetaSetVelocityPlayer(GetPlayerFromVRRig(rig), velocity);
+                    crashPulseCount[rig]++;
+                    lastCrashTime[rig] = Time.time;
+                    RPCProtection();
+                }
+            }
+        }
+
+        public static void GuardianKickAllToggle()
+        {
+            if (Time.time > crashAllDelay)
+            {
+                crashAllDelay = Time.time + 0.1f;
+                foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal))
+                {
+                    BetaSetVelocityPlayer(GetPlayerFromVRRig(rig), rig.transform.position.z < -28.5f ? (new Vector3(-47.82025f, 6.460508f, -29.04836f) - rig.transform.position).normalized * 50f : rig.transform.position.z < -23f ? new Vector3(-50f, 0f, 50f) : Vector3.left * 50f);
                     RPCProtection();
                 }
             }
@@ -5099,6 +5161,69 @@ namespace SignalMenu.Mods
                     Vector3 targetPosition = GorillaTagger.Instance.headCollider.transform.position + new Vector3(MathF.Cos(offset + Time.time) * scale, 2, MathF.Sin(offset + Time.time) * scale);
 
                     BetaSetVelocityPlayer(GetPlayerFromVRRig(rig), (targetPosition - rig.transform.position) * 1f);
+                    RPCProtection();
+                    index++;
+                }
+            }
+        }
+
+        public static void OrbitAllToggle()
+        {
+            float scale = 5f;
+            if (Time.time > flingDelay)
+            {
+                flingDelay = Time.time + 0.2f;
+                int index = 0;
+
+                VRRig[] rigs = GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal).ToArray();
+                foreach (VRRig rig in rigs)
+                {
+                    float offset = 360f / rigs.Length * index;
+                    Vector3 targetPosition = GorillaTagger.Instance.headCollider.transform.position + new Vector3(MathF.Cos(offset + Time.time) * scale, 2, MathF.Sin(offset + Time.time) * scale);
+
+                    BetaSetVelocityPlayer(GetPlayerFromVRRig(rig), (targetPosition - rig.transform.position) * 1f);
+                    RPCProtection();
+                    index++;
+                }
+            }
+        }
+
+        public static void OrbitAllFast()
+        {
+            float scale = 3f;
+            if (rightTrigger > 0.5f && Time.time > flingDelay)
+            {
+                flingDelay = Time.time + 0.02f;
+                int index = 0;
+
+                VRRig[] rigs = GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal).ToArray();
+                foreach (VRRig rig in rigs)
+                {
+                    float offset = 360f / rigs.Length * index;
+                    Vector3 targetPosition = GorillaTagger.Instance.headCollider.transform.position + new Vector3(MathF.Cos(offset + Time.time * 15f) * scale, 1.5f, MathF.Sin(offset + Time.time * 15f) * scale);
+
+                    BetaSetVelocityPlayer(GetPlayerFromVRRig(rig), (targetPosition - rig.transform.position) * 3f);
+                    RPCProtection();
+                    index++;
+                }
+            }
+        }
+
+        public static void OrbitAllFastToggle()
+        {
+            float scale = 3f;
+            if (Time.time > flingDelay)
+            {
+                flingDelay = Time.time + 0.02f;
+                int index = 0;
+
+                VRRig[] rigs = GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal).ToArray();
+                foreach (VRRig rig in rigs)
+                {
+                    float offset = 360f / rigs.Length * index;
+                    Vector3 targetPosition = GorillaTagger.Instance.headCollider.transform.position + new Vector3(MathF.Cos(offset + Time.time * 15f) * scale, 1.5f, MathF.Sin(offset + Time.time * 15f) * scale);
+
+                    BetaSetVelocityPlayer(GetPlayerFromVRRig(rig), (targetPosition - rig.transform.position) * 3f);
                     RPCProtection();
                     index++;
                 }

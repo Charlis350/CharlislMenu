@@ -54,7 +54,7 @@ namespace SignalMenu.Classes
             get
             {
                 if (_menuNameBlue == null)
-                    _menuNameBlue = "<color=blue><b>" + MenuName + " </b></color>";
+                    _menuNameBlue = "<b><color=#0080FF>" + MenuName + "</color></b>";
                 return _menuNameBlue;
             }
         }
