@@ -961,7 +961,7 @@ namespace SignalMenu.Mods
             if (DoPerformanceCheck())
                 return;
             float closest = float.MaxValue;
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 if (vrrig.IsTagged() != VRRig.LocalRig.IsTagged())
                 {
@@ -1055,7 +1055,7 @@ namespace SignalMenu.Mods
             if (!VRRig.LocalRig.IsTagged())
             {
                 float closest = float.MaxValue;
-                foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                foreach(VRRig vrrig in VRRigCache.ActiveRigs)
                 {
                     if (vrrig.IsTagged() != VRRig.LocalRig.IsTagged())
                     {
@@ -1216,7 +1216,7 @@ namespace SignalMenu.Mods
         {
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var lines in predictions.Where(lines => !GorillaParent.instance.vrrigs.Contains(lines.Key)))
+            foreach (var lines in predictions.Where(lines => !VRRigCache.ActiveRigs.Contains(lines.Key)))
             {
                 toRemove.Add(lines.Key);
                 Object.Destroy(lines.Value.gameObject);
@@ -1230,7 +1230,7 @@ namespace SignalMenu.Mods
             bool tt = Buttons.GetIndex("Transparent Theme").enabled;
             bool thinTracers = Buttons.GetIndex("Thin Tracers").enabled;
 
-            foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal))
+            foreach (var rig in VRRigCache.ActiveRigs.Where(rig => !rig.isLocal))
             {
                 if (!predictions.TryGetValue(rig, out LineRenderer Line))
                 {
@@ -1293,7 +1293,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var box in hitboxESP.Where(box => !GorillaParent.instance.vrrigs.Contains(box.Key)))
+            foreach (var box in hitboxESP.Where(box => !VRRigCache.ActiveRigs.Contains(box.Key)))
             {
                 toRemove.Add(box.Key);
                 Object.Destroy(box.Value);
@@ -1302,7 +1302,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 hitboxESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!hitboxESP.TryGetValue(vrrig, out GameObject box))
                 {
@@ -1428,7 +1428,7 @@ namespace SignalMenu.Mods
 
             LoopProjectileArray(ProjectileTracker.m_localProjectiles);
 
-            foreach (VRRig rig in GorillaParent.instance.vrrigs)
+            foreach (VRRig rig in VRRigCache.ActiveRigs)
             {
                 if (rig.IsLocal()) continue;
 
@@ -1689,13 +1689,13 @@ namespace SignalMenu.Mods
         public static void NameTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = nametags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 nametags.Remove(nametag.Key);
             }
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal || selfNameTag))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal || selfNameTag))
             {
                 if (!nametags.ContainsKey(vrrig))
                 {
@@ -1741,13 +1741,13 @@ namespace SignalMenu.Mods
         public static void VelocityTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = velnametags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 velnametags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -1798,13 +1798,13 @@ namespace SignalMenu.Mods
         public static void FPSTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = fpsNametags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 fpsNametags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -1855,13 +1855,13 @@ namespace SignalMenu.Mods
         public static void IDTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = idNameTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 idNameTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -1912,13 +1912,13 @@ namespace SignalMenu.Mods
         public static void PlatformTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = platformTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 platformTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -1972,7 +1972,7 @@ namespace SignalMenu.Mods
             List<KeyValuePair<VRRig, GameObject>> kidNameTagsCopy = kidNameTags.ToList();
             foreach (KeyValuePair<VRRig, GameObject> nametag in kidNameTagsCopy)
             {
-                if (!GorillaParent.instance.vrrigs.Contains(nametag.Key))
+                if (!VRRigCache.ActiveRigs.Contains(nametag.Key))
                 {
                     Object.Destroy(nametag.Value);
                     kidNameTags.Remove(nametag.Key);
@@ -1987,7 +1987,7 @@ namespace SignalMenu.Mods
                 }
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2043,7 +2043,7 @@ namespace SignalMenu.Mods
             List<KeyValuePair<VRRig, GameObject>> subNameTagsCopy = subNameTags.ToList();
             foreach (KeyValuePair<VRRig, GameObject> nametag in subNameTagsCopy)
             {
-                if (!GorillaParent.instance.vrrigs.Contains(nametag.Key))
+                if (!VRRigCache.ActiveRigs.Contains(nametag.Key))
                 {
                     Object.Destroy(nametag.Value);
                     subNameTags.Remove(nametag.Key);
@@ -2058,7 +2058,7 @@ namespace SignalMenu.Mods
                 }
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2113,13 +2113,13 @@ namespace SignalMenu.Mods
         public static void CreationDateTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = creationDateTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 creationDateTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2171,13 +2171,13 @@ namespace SignalMenu.Mods
         public static void PingTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = pingNameTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 pingNameTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2229,13 +2229,13 @@ namespace SignalMenu.Mods
         public static void TurnTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = turnNameTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 turnNameTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2289,13 +2289,13 @@ namespace SignalMenu.Mods
         public static void TaggedTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = taggedNameTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 taggedNameTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2447,13 +2447,13 @@ namespace SignalMenu.Mods
         public static void ModTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = modNameTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 modNameTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2494,7 +2494,7 @@ namespace SignalMenu.Mods
                             }
 
                             CosmeticsController.CosmeticSet cosmeticSet = vrrig.cosmeticSet;
-                            if (cosmeticSet.items.Any(cosmetic => !cosmetic.isNullItem && !vrrig.rawCosmeticString.Contains(cosmetic.itemName)))
+                            if (cosmeticSet.items.Any(cosmetic => !cosmetic.isNullItem && !vrrig.Cosmetics().Contains(cosmetic.itemName)))
                             {
                                 if (specialMods == null)
                                     specialMods = "Cosmetx";
@@ -2552,13 +2552,13 @@ namespace SignalMenu.Mods
         public static void CosmeticTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = cosmeticNameTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 cosmeticNameTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2580,7 +2580,7 @@ namespace SignalMenu.Mods
                         if (NameTagOptimize())
                         {
                             string cosmetics = null;
-                            foreach (var cosmetic in specialCosmetics.Where(cosmetic => vrrig.rawCosmeticString.Contains(cosmetic.Key)))
+                            foreach (var cosmetic in specialCosmetics.Where(cosmetic => vrrig.Cosmetics().Contains(cosmetic.Key)))
                             {
                                 if (cosmetics == null)
                                     cosmetics = cosmetic.Value;
@@ -2611,6 +2611,7 @@ namespace SignalMenu.Mods
                 catch { }
             }
         }
+        
 
         public static void DisableCosmeticTags()
         {
@@ -2724,13 +2725,13 @@ namespace SignalMenu.Mods
         public static void VerifiedTags()
         {
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = verifiedNameTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 verifiedNameTags.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2799,7 +2800,7 @@ namespace SignalMenu.Mods
             List<KeyValuePair<VRRig, GameObject>> crashedNameTagsCopy = crashedNameTags.ToList();
             foreach (KeyValuePair<VRRig, GameObject> nametag in crashedNameTagsCopy)
             {
-                if (!GorillaParent.instance.vrrigs.Contains(nametag.Key))
+                if (!VRRigCache.ActiveRigs.Contains(nametag.Key))
                 {
                     Object.Destroy(nametag.Value);
                     crashedNameTags.Remove(nametag.Key);
@@ -2815,7 +2816,7 @@ namespace SignalMenu.Mods
                 }
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -2920,7 +2921,7 @@ namespace SignalMenu.Mods
         {
             bool hoc = Buttons.GetIndex("Hidden on Camera").enabled;
             List<KeyValuePair<VRRig, GameObject>> nametagsCopy = compactNameTags.ToList();
-            foreach (var nametag in nametagsCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in nametagsCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 Object.Destroy(compactTagBackgrounds[nametag.Key]);
@@ -2928,7 +2929,7 @@ namespace SignalMenu.Mods
                 compactTagBackgrounds.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 try
                 {
@@ -3090,7 +3091,7 @@ namespace SignalMenu.Mods
 
         public static void FixRigColors()
         {
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => vrrig.mainSkin.material.name.Contains("gorilla_body") && vrrig.mainSkin.material.shader == Shader.Find("GorillaTag/UberShader")))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => vrrig.mainSkin.material.name.Contains("gorilla_body") && vrrig.mainSkin.material.shader == Shader.Find("GorillaTag/UberShader")))
                 vrrig.mainSkin.material.color = vrrig.playerColor;
         }
 
@@ -3247,7 +3248,7 @@ namespace SignalMenu.Mods
 
         public static void NoSmoothRigs()
         {
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 vrrig.lerpValueBody = 2f;
                 vrrig.lerpValueFingers = 1f;
@@ -3256,7 +3257,7 @@ namespace SignalMenu.Mods
 
         public static void ReSmoothRigs()
         {
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 vrrig.lerpValueBody = VRRig.LocalRig.lerpValueBody;
                 vrrig.lerpValueFingers = VRRig.LocalRig.lerpValueFingers;
@@ -3315,7 +3316,7 @@ namespace SignalMenu.Mods
         public static void CosmeticESP()
         {
             List<KeyValuePair<VRRig, GameObject>> indicatorCopy = cosmeticIndicators.ToList();
-            foreach (var nametag in indicatorCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in indicatorCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 cosmeticIndicators.Remove(nametag.Key);
@@ -3331,12 +3332,14 @@ namespace SignalMenu.Mods
                 ("LBAAD.", "admin")
             };
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach (NetPlayer netPlayer in PhotonNetwork.PlayerList)
             {
+                var vrrig = GorillaGameManager.instance.FindPlayerVRRig(netPlayer);
+
                 string currentCosmetic = null;
                 foreach (var (codename, name) in cosmetics)
                 {
-                    if (vrrig.rawCosmeticString.Contains(codename))
+                    if (vrrig.Cosmetics().Contains(codename))
                     {
                         currentCosmetic = name;
                         break;
@@ -3398,13 +3401,13 @@ namespace SignalMenu.Mods
         public static void PlatformIndicators()
         {
             List<KeyValuePair<VRRig, GameObject>> indicatorCopy = platformIndicators.ToList();
-            foreach (var nametag in indicatorCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in indicatorCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 platformIndicators.Remove(nametag.Key);
             }
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal || selfNameTag))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal || selfNameTag))
             {
                 if (!platformIndicators.TryGetValue(vrrig, out GameObject indicator))
                 {
@@ -3439,13 +3442,13 @@ namespace SignalMenu.Mods
         public static void PlatformESP()
         {
             List<KeyValuePair<VRRig, GameObject>> indicatorCopy = platformIndicators.ToList();
-            foreach (var nametag in indicatorCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in indicatorCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 platformIndicators.Remove(nametag.Key);
             }
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal || selfNameTag))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal || selfNameTag))
             {
                 if (!platformIndicators.TryGetValue(vrrig, out GameObject indicator))
                 {
@@ -3486,13 +3489,13 @@ namespace SignalMenu.Mods
         public static void VoiceIndicators()
         {
             List<KeyValuePair<VRRig, GameObject>> indicatorCopy = voiceIndicators.ToList();
-            foreach (var nametag in indicatorCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in indicatorCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 voiceIndicators.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 if (!vrrig.isLocal || selfNameTag)
                 {
@@ -3548,13 +3551,13 @@ namespace SignalMenu.Mods
         public static void VoiceESP()
         {
             List<KeyValuePair<VRRig, GameObject>> indicatorCopy = voiceIndicators.ToList();
-            foreach (var nametag in indicatorCopy.Where(nametag => !GorillaParent.instance.vrrigs.Contains(nametag.Key)))
+            foreach (var nametag in indicatorCopy.Where(nametag => !VRRigCache.ActiveRigs.Contains(nametag.Key)))
             {
                 Object.Destroy(nametag.Value);
                 voiceIndicators.Remove(nametag.Key);
             }
 
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 if (!vrrig.isLocal)
                 {
@@ -3665,7 +3668,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var boness in boneESP.Where(boness => !GorillaParent.instance.vrrigs.Contains(boness.Key)))
+            foreach (var boness in boneESP.Where(boness => !VRRigCache.ActiveRigs.Contains(boness.Key)))
             {
                 toRemove.Add(boness.Key);
 
@@ -3676,7 +3679,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 boneESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!boneESP.TryGetValue(vrrig, out List<LineRenderer> Lines))
                 {
@@ -3756,7 +3759,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var boness in boneESP.Where(boness => !GorillaParent.instance.vrrigs.Contains(boness.Key)))
+            foreach (var boness in boneESP.Where(boness => !VRRigCache.ActiveRigs.Contains(boness.Key)))
             {
                 toRemove.Add(boness.Key);
 
@@ -3767,7 +3770,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 boneESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!boneESP.TryGetValue(vrrig, out List<LineRenderer> Lines))
                 {
@@ -3857,7 +3860,7 @@ namespace SignalMenu.Mods
             GorillaHuntManager hunt = (GorillaHuntManager)GorillaGameManager.instance;
             NetPlayer target = hunt.GetTargetOf(NetworkSystem.Instance.LocalPlayer);
 
-            foreach (var boness in boneESP.Where(boness => !GorillaParent.instance.vrrigs.Contains(boness.Key)))
+            foreach (var boness in boneESP.Where(boness => !VRRigCache.ActiveRigs.Contains(boness.Key)))
             {
                 toRemove.Add(boness.Key);
 
@@ -3868,7 +3871,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 boneESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!boneESP.TryGetValue(vrrig, out List<LineRenderer> Lines))
                 {
@@ -3955,7 +3958,7 @@ namespace SignalMenu.Mods
 
         public static void CasualSkeletonESP()
         {
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 vrrig.skeleton.renderer.enabled = true;
                 vrrig.skeleton.renderer.material.shader = Shader.Find("GUI/Text Shader");
@@ -3968,7 +3971,7 @@ namespace SignalMenu.Mods
         public static void InfectionSkeletonESP()
         {
             bool isInfectedPlayers = false;
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 if (vrrig.IsTagged())
                 {
@@ -3980,7 +3983,7 @@ namespace SignalMenu.Mods
             {
                 if (!VRRig.LocalRig.IsTagged())
                 {
-                    foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                    foreach(VRRig vrrig in VRRigCache.ActiveRigs)
                     {
                         if (vrrig.IsTagged() && !vrrig.isLocal)
                         {
@@ -4001,7 +4004,7 @@ namespace SignalMenu.Mods
                 }
                 else
                 {
-                    foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.IsTagged() && !vrrig.isLocal))
+                    foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.IsTagged() && !vrrig.isLocal))
                     {
                         vrrig.skeleton.renderer.enabled = true;
                         vrrig.skeleton.renderer.material.shader = Shader.Find("GUI/Text Shader");
@@ -4013,7 +4016,7 @@ namespace SignalMenu.Mods
             }
             else
             {
-                foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+                foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
                 {
                     vrrig.skeleton.renderer.enabled = true;
                     vrrig.skeleton.renderer.material.shader = Shader.Find("GUI/Text Shader");
@@ -4063,7 +4066,7 @@ namespace SignalMenu.Mods
 
         public static void DisableSkeletonESP()
         {
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 vrrig.skeleton.renderer.enabled = false;
                 vrrig.skeleton.renderer.material.shader = Shader.Find("GorillaTag/UberShader");
@@ -4077,7 +4080,7 @@ namespace SignalMenu.Mods
         {
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var lines in wireframes.Where(lines => !GorillaParent.instance.vrrigs.Contains(lines.Key)))
+            foreach (var lines in wireframes.Where(lines => !VRRigCache.ActiveRigs.Contains(lines.Key)))
             {
                 toRemove.Add(lines.Key);
                 Object.Destroy(lines.Value);
@@ -4090,7 +4093,7 @@ namespace SignalMenu.Mods
             bool hoc = Buttons.GetIndex("Hidden on Camera").enabled;
             bool tt = Buttons.GetIndex("Transparent Theme").enabled;
 
-            foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal))
+            foreach (var rig in VRRigCache.ActiveRigs.Where(rig => !rig.isLocal))
             {
                 if (!wireframes.TryGetValue(rig, out SkinnedWireframeRenderer wireframe))
                 {
@@ -4139,7 +4142,7 @@ namespace SignalMenu.Mods
         {
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var lines in wireframes.Where(lines => !GorillaParent.instance.vrrigs.Contains(lines.Key)))
+            foreach (var lines in wireframes.Where(lines => !VRRigCache.ActiveRigs.Contains(lines.Key)))
             {
                 toRemove.Add(lines.Key);
                 Object.Destroy(lines.Value);
@@ -4153,7 +4156,7 @@ namespace SignalMenu.Mods
             bool tt = Buttons.GetIndex("Transparent Theme").enabled;
             bool selfTagged = VRRig.LocalRig.IsTagged();
 
-            foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal))
+            foreach (var rig in VRRigCache.ActiveRigs.Where(rig => !rig.isLocal))
             {
                 if (!wireframes.TryGetValue(rig, out SkinnedWireframeRenderer wireframe))
                 {
@@ -4207,7 +4210,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var lines in wireframes.Where(lines => !GorillaParent.instance.vrrigs.Contains(lines.Key)))
+            foreach (var lines in wireframes.Where(lines => !VRRigCache.ActiveRigs.Contains(lines.Key)))
             {
                 toRemove.Add(lines.Key);
                 Object.Destroy(lines.Value);
@@ -4223,7 +4226,7 @@ namespace SignalMenu.Mods
             GorillaHuntManager hunt = (GorillaHuntManager)GorillaGameManager.instance;
             NetPlayer target = hunt.GetTargetOf(NetworkSystem.Instance.LocalPlayer);
 
-            foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal))
+            foreach (var rig in VRRigCache.ActiveRigs.Where(rig => !rig.isLocal))
             {
                 if (!wireframes.TryGetValue(rig, out SkinnedWireframeRenderer wireframe))
                 {
@@ -4393,7 +4396,7 @@ namespace SignalMenu.Mods
 
         public static void Chams()
         {
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal && vrrig.colorInitialized && vrrig.initializedCosmetics && vrrig.mainSkin.material.shader.name != "Custom/UberChams"))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal && vrrig.colorInitialized && vrrig.initializedCosmetics && vrrig.mainSkin.material.shader.name != "Custom/UberChams"))
             {
                 if (!uberChams)
                     uberChams = LoadAsset<Shader>("UberChams");
@@ -4473,7 +4476,7 @@ namespace SignalMenu.Mods
 
         public static void DisableShaderChams()
         {
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 if (!vrrig.isLocal)
                 {
@@ -4515,7 +4518,7 @@ namespace SignalMenu.Mods
 
         public static void CasualChams()
         {
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 FixRigMaterialESPColors(vrrig);
 
@@ -4529,7 +4532,7 @@ namespace SignalMenu.Mods
         public static void InfectionChams()
         {
             bool isInfectedPlayers = false;
-            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            foreach(VRRig vrrig in VRRigCache.ActiveRigs)
             {
                 if (vrrig.IsTagged())
                 {
@@ -4541,7 +4544,7 @@ namespace SignalMenu.Mods
             {
                 if (!VRRig.LocalRig.IsTagged())
                 {
-                    foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                    foreach(VRRig vrrig in VRRigCache.ActiveRigs)
                     {
                         if (vrrig.IsTagged() && !vrrig.isLocal)
                         {
@@ -4562,7 +4565,7 @@ namespace SignalMenu.Mods
                 }
                 else
                 {
-                    foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.IsTagged() && !vrrig.isLocal))
+                    foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.IsTagged() && !vrrig.isLocal))
                     {
                         FixRigMaterialESPColors(vrrig);
 
@@ -4575,7 +4578,7 @@ namespace SignalMenu.Mods
             }
             else
             {
-                foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+                foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
                 {
                     FixRigMaterialESPColors(vrrig);
 
@@ -4625,7 +4628,7 @@ namespace SignalMenu.Mods
 
         public static void DisableChams()
         {
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 foreach (Material mat in vrrig.mainSkin.materials)
                     mat.shader = Shader.Find("GorillaTag/UberShader");
@@ -4643,7 +4646,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var box in boxESP.Where(box => !GorillaParent.instance.vrrigs.Contains(box.Key)))
+            foreach (var box in boxESP.Where(box => !VRRigCache.ActiveRigs.Contains(box.Key)))
             {
                 toRemove.Add(box.Key);
                 Object.Destroy(box.Value);
@@ -4652,7 +4655,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 boxESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!boxESP.TryGetValue(vrrig, out GameObject box))
                 {
@@ -4689,7 +4692,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var box in boxESP.Where(box => !GorillaParent.instance.vrrigs.Contains(box.Key)))
+            foreach (var box in boxESP.Where(box => !VRRigCache.ActiveRigs.Contains(box.Key)))
             {
                 toRemove.Add(box.Key);
                 Object.Destroy(box.Value);
@@ -4698,7 +4701,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 boxESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!boxESP.TryGetValue(vrrig, out GameObject box))
                 {
@@ -4742,7 +4745,7 @@ namespace SignalMenu.Mods
             GorillaHuntManager hunt = (GorillaHuntManager)GorillaGameManager.instance;
             NetPlayer target = hunt.GetTargetOf(NetworkSystem.Instance.LocalPlayer);
 
-            foreach (var box in boxESP.Where(box => !GorillaParent.instance.vrrigs.Contains(box.Key)))
+            foreach (var box in boxESP.Where(box => !VRRigCache.ActiveRigs.Contains(box.Key)))
             {
                 toRemove.Add(box.Key);
                 Object.Destroy(box.Value);
@@ -4751,7 +4754,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 boxESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!boxESP.TryGetValue(vrrig, out GameObject box))
                 {
@@ -4802,7 +4805,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var box in hollowBoxESP.Where(box => !GorillaParent.instance.vrrigs.Contains(box.Key)))
+            foreach (var box in hollowBoxESP.Where(box => !VRRigCache.ActiveRigs.Contains(box.Key)))
             {
                 toRemove.Add(box.Key);
                 Object.Destroy(box.Value);
@@ -4811,7 +4814,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 hollowBoxESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!hollowBoxESP.TryGetValue(vrrig, out GameObject box))
                 {
@@ -4884,7 +4887,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var box in hollowBoxESP.Where(box => !GorillaParent.instance.vrrigs.Contains(box.Key)))
+            foreach (var box in hollowBoxESP.Where(box => !VRRigCache.ActiveRigs.Contains(box.Key)))
             {
                 toRemove.Add(box.Key);
                 Object.Destroy(box.Value);
@@ -4893,7 +4896,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 hollowBoxESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!hollowBoxESP.TryGetValue(vrrig, out GameObject box))
                 {
@@ -4973,7 +4976,7 @@ namespace SignalMenu.Mods
             GorillaHuntManager hunt = (GorillaHuntManager)GorillaGameManager.instance;
             NetPlayer target = hunt.GetTargetOf(NetworkSystem.Instance.LocalPlayer);
 
-            foreach (var box in hollowBoxESP.Where(box => !GorillaParent.instance.vrrigs.Contains(box.Key)))
+            foreach (var box in hollowBoxESP.Where(box => !VRRigCache.ActiveRigs.Contains(box.Key)))
             {
                 toRemove.Add(box.Key);
                 Object.Destroy(box.Value);
@@ -4982,7 +4985,7 @@ namespace SignalMenu.Mods
             foreach (VRRig rig in toRemove)
                 hollowBoxESP.Remove(rig);
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!hollowBoxESP.TryGetValue(vrrig, out GameObject box))
                 {
@@ -5062,7 +5065,7 @@ namespace SignalMenu.Mods
         {
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var lines in breadcrumbs.Where(lines => !GorillaParent.instance.vrrigs.Contains(lines.Key)))
+            foreach (var lines in breadcrumbs.Where(lines => !VRRigCache.ActiveRigs.Contains(lines.Key)))
             {
                 toRemove.Add(lines.Key);
                 Object.Destroy(lines.Value);
@@ -5077,7 +5080,7 @@ namespace SignalMenu.Mods
             bool thinTracers = Buttons.GetIndex("Thin Tracers").enabled;
             bool shortBreadcrumbs = Buttons.GetIndex("Short Breadcrumbs").enabled;
 
-            foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal))
+            foreach (var rig in VRRigCache.ActiveRigs.Where(rig => !rig.isLocal))
             {
                 if (!breadcrumbs.TryGetValue(rig, out TrailRenderer trail))
                 {
@@ -5119,7 +5122,7 @@ namespace SignalMenu.Mods
         {
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var lines in breadcrumbs.Where(lines => !GorillaParent.instance.vrrigs.Contains(lines.Key)))
+            foreach (var lines in breadcrumbs.Where(lines => !VRRigCache.ActiveRigs.Contains(lines.Key)))
             {
                 toRemove.Add(lines.Key);
                 Object.Destroy(lines.Value);
@@ -5135,7 +5138,7 @@ namespace SignalMenu.Mods
             bool shortBreadcrumbs = Buttons.GetIndex("Short Breadcrumbs").enabled;
             bool selfTagged = VRRig.LocalRig.IsTagged();
 
-            foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal))
+            foreach (var rig in VRRigCache.ActiveRigs.Where(rig => !rig.isLocal))
             {
                 if (!breadcrumbs.TryGetValue(rig, out TrailRenderer trail))
                 {
@@ -5182,7 +5185,7 @@ namespace SignalMenu.Mods
 
             List<VRRig> toRemove = new List<VRRig>();
 
-            foreach (var lines in breadcrumbs.Where(lines => !GorillaParent.instance.vrrigs.Contains(lines.Key)))
+            foreach (var lines in breadcrumbs.Where(lines => !VRRigCache.ActiveRigs.Contains(lines.Key)))
             {
                 toRemove.Add(lines.Key);
                 Object.Destroy(lines.Value);
@@ -5200,7 +5203,7 @@ namespace SignalMenu.Mods
             GorillaHuntManager hunt = (GorillaHuntManager)GorillaGameManager.instance;
             NetPlayer target = hunt.GetTargetOf(NetworkSystem.Instance.LocalPlayer);
 
-            foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => !rig.isLocal))
+            foreach (var rig in VRRigCache.ActiveRigs.Where(rig => !rig.isLocal))
             {
                 if (!breadcrumbs.TryGetValue(rig, out TrailRenderer trail))
                 {
@@ -5348,7 +5351,7 @@ namespace SignalMenu.Mods
 
             Color menuColor = backgroundColor.GetCurrentColor();
 
-            foreach (VRRig playerRig in GorillaParent.instance.vrrigs)
+            foreach (VRRig playerRig in VRRigCache.ActiveRigs)
             {
                 if (playerRig.isLocal)
                     continue;
@@ -5388,7 +5391,7 @@ namespace SignalMenu.Mods
 
             float distance = float.MaxValue;
             VRRig playerRig = VRRig.LocalRig;
-            foreach (var rig in GorillaParent.instance.vrrigs.Where(rig => distance > Vector3.Distance(rig.transform.position, VRRig.LocalRig.transform.position) && !rig.isLocal))
+            foreach (var rig in VRRigCache.ActiveRigs.Where(rig => distance > Vector3.Distance(rig.transform.position, VRRig.LocalRig.transform.position) && !rig.isLocal))
             {
                 distance = Vector3.Distance(rig.transform.position, VRRig.LocalRig.transform.position);
                 playerRig = rig;
@@ -5429,7 +5432,7 @@ namespace SignalMenu.Mods
             bool LocalTagged = VRRig.LocalRig.IsTagged();
             bool NoInfected = InfectedList().Count == 0;
 
-            foreach (VRRig playerRig in GorillaParent.instance.vrrigs)
+            foreach (VRRig playerRig in VRRigCache.ActiveRigs)
             {
                 if (playerRig.isLocal)
                     continue;
@@ -5487,7 +5490,7 @@ namespace SignalMenu.Mods
 
             NetPlayer currentTarget = sillyComputer.GetTargetOf(PhotonNetwork.LocalPlayer);
 
-            foreach (var playerRig in GorillaParent.instance.vrrigs.Where(playerRig => !playerRig.isLocal))
+            foreach (var playerRig in VRRigCache.ActiveRigs.Where(playerRig => !playerRig.isLocal))
             {
                 if (GetPlayerFromVRRig(playerRig) == currentTarget)
                 {
@@ -5540,7 +5543,7 @@ namespace SignalMenu.Mods
 
             Color menuColor = backgroundColor.GetCurrentColor();
 
-            foreach (VRRig playerRig in GorillaParent.instance.vrrigs)
+            foreach (VRRig playerRig in VRRigCache.ActiveRigs)
             {
                 if (playerRig.isLocal)
                     continue;
@@ -5583,7 +5586,7 @@ namespace SignalMenu.Mods
 
             Color menuColor = backgroundColor.GetCurrentColor();
 
-            foreach (VRRig playerRig in GorillaParent.instance.vrrigs)
+            foreach (VRRig playerRig in VRRigCache.ActiveRigs)
             {
                 if (playerRig.isLocal)
                     continue;
@@ -5648,7 +5651,7 @@ namespace SignalMenu.Mods
 
             NetPlayer currentTarget = sillyComputer.GetTargetOf(PhotonNetwork.LocalPlayer);
 
-            foreach (var playerRig in GorillaParent.instance.vrrigs.Where(playerRig => !playerRig.isLocal))
+            foreach (var playerRig in VRRigCache.ActiveRigs.Where(playerRig => !playerRig.isLocal))
             {
                 if (GetPlayerFromVRRig(playerRig) == currentTarget)
                 {
@@ -5707,7 +5710,7 @@ namespace SignalMenu.Mods
 
             Color menuColor = backgroundColor.GetCurrentColor();
 
-            foreach (VRRig playerRig in GorillaParent.instance.vrrigs)
+            foreach (VRRig playerRig in VRRigCache.ActiveRigs)
             {
                 if (playerRig.isLocal) // Skip local player
                     continue;
@@ -5759,7 +5762,7 @@ namespace SignalMenu.Mods
 
             Color menuColor = backgroundColor.GetCurrentColor();
 
-            foreach (VRRig playerRig in GorillaParent.instance.vrrigs)
+            foreach (VRRig playerRig in VRRigCache.ActiveRigs)
             {
                 if (playerRig.isLocal) //skip local player
                     continue;
@@ -5840,7 +5843,7 @@ namespace SignalMenu.Mods
 
             // Color bgColor = backgroundColor.GetCurrentColor(); //dont need to call this function twice, just use a variable
 
-            foreach (var playerRig in GorillaParent.instance.vrrigs.Where(playerRig => !playerRig.isLocal))
+            foreach (var playerRig in VRRigCache.ActiveRigs.Where(playerRig => !playerRig.isLocal))
             {
                 if (GetPlayerFromVRRig(playerRig) == currentTarget) // Use ID for quick comparison
                 {

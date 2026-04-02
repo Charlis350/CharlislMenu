@@ -90,6 +90,7 @@ namespace SignalMenu.Menu
         /// <summary>
         /// Runs on first frame of <see cref="GTPlayer.LateUpdate"/> after menu is launched
         /// </summary>
+
         public static void OnLaunch()
         {
             if (CoroutineManager.instance == null)
@@ -4612,7 +4613,7 @@ namespace SignalMenu.Menu
         {
             get
             {
-                if (!GorillaParent.instance.vrrigs.Contains(_giveGunTarget))
+                if (!VRRigCache.ActiveRigs.Contains(_giveGunTarget))
                     _giveGunTarget = null;
 
                 return _giveGunTarget;
@@ -5033,7 +5034,7 @@ namespace SignalMenu.Menu
         {
             if (snowballDict == null)
             {
-                if (!CosmeticsV2Spawner_Dirty.completed)
+                if (!CosmeticsV2Spawner_Dirty.isPrepared)
                     return null;
 
                 snowballDict = new Dictionary<string, SnowballThrowable>();
@@ -5814,7 +5815,7 @@ namespace SignalMenu.Menu
             {
                 if (!GorillaComputer.instance.friendJoinCollider.playerIDsCurrentlyTouching.Contains(PhotonNetwork
                         .LocalPlayer.UserId) &&
-                    !CosmeticWardrobeProximityDetector.IsUserNearWardrobe(PhotonNetwork.LocalPlayer.UserId)) return;
+                    !CosmeticWardrobeProximityDetector.IsUserNearWardrobe(Int32.Parse(PhotonNetwork.LocalPlayer.UserId))) return;
                 GorillaTagger.Instance.myVRRig.SendRPC("RPC_InitializeNoobMaterial", RpcTarget.All, VRRig.LocalRig.playerColor.r, VRRig.LocalRig.playerColor.g, VRRig.LocalRig.playerColor.b);
                 RPCProtection();
             }

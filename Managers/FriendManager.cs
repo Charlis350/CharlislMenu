@@ -129,7 +129,7 @@ namespace SignalMenu.Managers
 
             List<VRRig> toRemoveRigs = new List<VRRig>();
 
-            foreach (var star in starPool.Where(star => !GorillaParent.instance.vrrigs.Contains(star.Key) || !IsPlayerFriend(GetPlayerFromVRRig(star.Key))))
+            foreach (var star in starPool.Where(star => !VRRigCache.ActiveRigs.Contains(star.Key) || !IsPlayerFriend(GetPlayerFromVRRig(star.Key))))
             {
                 toRemoveRigs.Add(star.Key);
                 Destroy(star.Value);
@@ -300,7 +300,7 @@ namespace SignalMenu.Managers
                 {
                     List<VRRig> toRemove = new List<VRRig>();
 
-                    foreach (var platform in PlatformDictionary.Where(Platform => !GorillaParent.instance.vrrigs.Contains(Platform.Key)))
+                    foreach (var platform in PlatformDictionary.Where(Platform => !VRRigCache.ActiveRigs.Contains(Platform.Key)))
                     {
                         toRemove.Add(platform.Key);
                         Destroy(platform.Value);

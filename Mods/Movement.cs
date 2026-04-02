@@ -2768,7 +2768,7 @@ namespace SignalMenu.Mods
         {
             bool isTagged = VRRig.LocalRig.IsTagged();
 
-            VRRig closestRig = GorillaParent.instance.vrrigs
+            VRRig closestRig = VRRigCache.ActiveRigs
                 .Where(rig => rig != null && !rig.isLocal && 
                                   (isTagged ? !rig.IsTagged() : rig.IsTagged()))
                 .OrderBy(rig => Vector3.Distance(rig.transform.position, GorillaTagger.Instance.bodyCollider.transform.position))
@@ -3536,7 +3536,7 @@ namespace SignalMenu.Mods
 
         public static void EyeContact()
         {
-            foreach (VRRig rig in GorillaParent.instance.vrrigs.Where(rig => !rig.IsLocal()))
+            foreach (VRRig rig in VRRigCache.ActiveRigs.Where(rig => !rig.IsLocal()))
             {
                 if (Physics.SphereCast(rig.headMesh.transform.position + (rig.headMesh.transform.forward * 0.25f), 0.25f, rig.headMesh.transform.forward, out _, 512f, NoInvisLayerMask()))
                 {
@@ -3733,7 +3733,7 @@ namespace SignalMenu.Mods
         public static void PunchMod()
         {
             int index = -1;
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 index++;
 
@@ -3763,7 +3763,7 @@ namespace SignalMenu.Mods
         {
             if (sithlord == null)
             {
-                foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                foreach(VRRig vrrig in VRRigCache.ActiveRigs)
                 {
                     try
                     {
@@ -3817,7 +3817,7 @@ namespace SignalMenu.Mods
         public static void SafetyBubble()
         {
             foreach (VRRig rig in 
-                GorillaParent.instance.vrrigs
+                VRRigCache.ActiveRigs
                     .Where(rig => rig != null && !rig.isLocal)
                     .OrderBy(rig => Vector3.Distance(rig.transform.position, GorillaTagger.Instance.bodyCollider.transform.position)))
             {
@@ -3837,7 +3837,7 @@ namespace SignalMenu.Mods
             List<VRRig> toRemove = new List<VRRig>();
             foreach (VRRig rig in RigColliders.Keys)
             {
-                if (!GorillaParent.instance.vrrigs.Contains(rig))
+                if (!VRRigCache.ActiveRigs.Contains(rig))
                     toRemove.Add(rig);
             }
 
@@ -3849,7 +3849,7 @@ namespace SignalMenu.Mods
 
             toRemove.Clear();
 
-            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isLocal))
+            foreach (var vrrig in VRRigCache.ActiveRigs.Where(vrrig => !vrrig.isLocal))
             {
                 if (!RigColliders.TryGetValue(vrrig, out List<GameObject> colliders))
                 {
@@ -4277,7 +4277,7 @@ namespace SignalMenu.Mods
         {
             bool isTagged = VRRig.LocalRig.IsTagged();
 
-            VRRig closestRig = GorillaParent.instance.vrrigs
+            VRRig closestRig = VRRigCache.ActiveRigs
                 .Where(rig => rig != null && !rig.isLocal &&
                                   (isTagged ? !rig.IsTagged() : rig.IsTagged()))
                 .OrderBy(rig => Vector3.Distance(rig.transform.position, GorillaTagger.Instance.bodyCollider.transform.position))

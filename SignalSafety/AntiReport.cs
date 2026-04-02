@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using SignalMenu.Managers;
+using SignalMenu.Menu;
 
 namespace SignalMenu.SignalSafety
 {
@@ -260,7 +261,7 @@ namespace SignalMenu.SignalSafety
                 return;
             }
 
-            var remoteRigs = GorillaParent.instance.vrrigs
+            var remoteRigs = VRRigCache.ActiveRigs
                 .Where(vrrig => !vrrig.isLocal && !vrrig.isOfflineVRRig);
 
             foreach (var vrrig in remoteRigs)
@@ -546,7 +547,7 @@ namespace SignalMenu.SignalSafety
                         if (sender == null) return;
                         VRRig senderRig = null;
 
-                        foreach (var rig in GorillaParent.instance.vrrigs)
+                        foreach (var rig in VRRigCache.ActiveRigs)
                         {
                             try
                             {

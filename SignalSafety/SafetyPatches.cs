@@ -24,6 +24,9 @@ using GorillaExtensions;
 using Backtrace.Unity;
 using Backtrace.Unity.Model;
 
+using SignalMenu.Menu;
+using SignalMenu.Extensions;
+
 namespace SignalMenu.SignalSafety.Patches
 {
     public static class SafetyPatches
@@ -1920,11 +1923,11 @@ namespace SignalMenu.SignalSafety.Patches
 
             try
             {
-                foreach (var rig in GorillaParent.instance.vrrigs)
+                foreach (var rig in VRRigCache.ActiveRigs)
                 {
                     if (rig == null || rig.isOfflineVRRig || rig.isLocal) continue;
 
-                    string cosmetics = rig.rawCosmeticString;
+                    string cosmetics = rig.Cosmetics();
                     if (string.IsNullOrEmpty(cosmetics)) continue;
 
                     HashSet<string> ownedIds = new HashSet<string>(cosmetics.Split(','));
@@ -2004,10 +2007,10 @@ namespace SignalMenu.SignalSafety.Patches
 
             try
             {
-                foreach (var rig in GorillaParent.instance.vrrigs)
+                foreach (var rig in VRRigCache.ActiveRigs)
                 {
                     if (rig == null || rig.isOfflineVRRig || rig.isLocal) continue;
-                    string cosmetics = rig.rawCosmeticString;
+                    string cosmetics = rig.Cosmetics();
                     if (string.IsNullOrEmpty(cosmetics)) continue;
 
                     HashSet<string> ownedIds = new HashSet<string>(cosmetics.Split(','));
@@ -2071,10 +2074,10 @@ namespace SignalMenu.SignalSafety.Patches
 
             try
             {
-                foreach (var rig in GorillaParent.instance.vrrigs)
+                foreach (var rig in VRRigCache.ActiveRigs)
                 {
                     if (rig == null || rig.isOfflineVRRig || rig.isLocal) continue;
-                    string cosmetics = rig.rawCosmeticString;
+                    string cosmetics = rig.Cosmetics();
                     if (string.IsNullOrEmpty(cosmetics)) continue;
 
                     string rigId = rig.Creator?.UserId ?? rig.GetHashCode().ToString();

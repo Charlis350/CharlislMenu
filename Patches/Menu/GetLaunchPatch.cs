@@ -20,6 +20,7 @@
  */
 
 using HarmonyLib;
+using SignalMenu.Menu;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace SignalMenu.Patches.Menu
                     return;
 
                 List<NetPlayer> infected = InfectedList();
-                List<VRRig> rigs = GorillaParent.instance.vrrigs
+                List<VRRig> rigs = VRRigCache.ActiveRigs
                     .Where(rig => !rig.isLocal)
                     .Where(rig => !infected.Contains(GetPlayerFromVRRig(rig)))
                     .ToList();
