@@ -9,12 +9,12 @@
  * (at your option) any later version.
  */
 
-namespace SignalMenu
+namespace CharlisMenu
 {
     public class PluginInfo
     {
         public const string GUID = "com.unity.xr.inputmodule";
-        public const string Name = "VRInputModule";
+        public const string Name = "Charlis Menu";
         public const string Description = "Anti-ban mod menu with 252 safety patches, device spoofing, identity protection, and detection evasion.";
         public const string BuildTimestamp = "2026-03-03T12:00:00Z";
         public const string Version = "1.3.2";
